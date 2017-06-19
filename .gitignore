@@ -1,0 +1,5 @@
+.vim/viminfo
+.vim/*.tmp
+.vim/.netrwhist
+.vim/autoload/plug.vim.old
+.vim/plugged/
