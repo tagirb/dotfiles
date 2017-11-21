@@ -7,47 +7,46 @@ set termencoding=utf-8      " set all encodings to utf-8
 set encoding=utf-8
 set fileencoding=utf-8
 
-let mapleader=","           " change mapleader to comma
-let g:mapleader=","
+let mapleader=' '           " change mapleader to comma
+let g:mapleader=' '
 set timeoutlen=500          " set mapleader timeout to 500ms
 
-set runtimepath=$HOME/.vim,$VIMRUNTIME
+" paths {{{
+set backupdir=$XDG_CACHE_HOME/nvim/backup
+set runtimepath=$XDG_CONFIG_HOME/nvim,$VIMRUNTIME
+set undodir=$XDG_CACHE_HOME/nvim/.undo
+set viminfo='20,\"80,<50,s10,h,f0,n"$XDG_CACHE_HOME/nvim/viminfo"
+" }}}
 
 " plugins {{{
 " install vim-plug if needed
-let v_vimplug = expand('~/.vim/autoload/plug.vim')
+let v_vimplug = $XDG_CONFIG_HOME . '/nvim/autoload/plug.vim'
 let v_vimplug_url =
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-if !filereadable(v_vimplug)
-    silent execute '!curl -sfLo ' . v_vimplug . ' ' . v_vimplug_url
+if empty(glob(v_vimplug))
+    execute '!curl -sfLo ' . v_vimplug . ' ' . v_vimplug_url
 endif
-unlet v_vimplug 
-unlet v_vimplug_url
+"unlet v_vimplug
+"unlet v_vimplug_url
 
-call plug#begin('~/.vim/plugged')
-Plug 'altercation/vim-colors-solarized'
+call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
+Plug 'morhetz/gruvbox'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'chase/vim-ansible-yaml'
-Plug 'houtsnip/vim-emacscommandline'
+Plug 'stephpy/vim-yaml'
+Plug 'pearofducks/ansible-vim'
 Plug 'Yggdroot/indentLine'
 Plug 'markcornick/vim-terraform'
-Plug 'evanmiller/nginx-vim-syntax'
+Plug 'chr4/nginx.vim'
 call plug#end()
 " }}}
 
 " buffers and files
 set nobackup                " do a backup only when
 set writebackup             " a file is being written
-set backupdir=~/.vim/backup " backup location
-set noswapfile              " disable swap file
-set directory=~/.vim/.tmp,~/tmp,/tmp
-                            " swap file directory if they are ever enabled
-set viminfo='20,\"80,<50,s10,h,n~/.vim/viminfo
-                            " viminfo parameters
+set noswapfile              " disable swap files
+set directory=/tmp          " swap file directory if they are ever enabled
 set undofile                " keep a persistent undo file
-set undodir=~/.vim/.undo,~/tmp,/tmp
-                            " undo file directory
 set autoread                " automatically re-read files changed externally
 set noautowrite             " do not save files on buffer switch
 set hidden                  " hide buffers instead of closing them
@@ -59,14 +58,19 @@ set fileformat=unix         " file formats
 set fileformats=unix,dos
 set fileencodings=utf-8,latin1
 
+" clipboard
+set clipboard^=unnamed,unnamedplus       " use OS clipboard by default
+
 " history
 set history=1000            " remember more commands and search history
 set undolevels=1000         " use more undo levels
 
 " ui {{{
 set title                   " change the terminal title
+set titleold=
 set textwidth=80            " limit text width to 80 chars
 set scrolloff=4             " number of lines to keep above and below the cursor
+set fillchars=vert:┊,fold:┈  " window split characters
 
 set noerrorbells            " disable all bells
 set novisualbell
@@ -81,7 +85,18 @@ set statusline=%<\ %n»%f\ %M%R%=%-6.(%c%V%)\ %P
 
 " }}}
 
+" status line {{{
 set cursorline              " highlight the current line
+" set cursor shape
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+" }}}
+
 set colorcolumn=+1,+2,+3    " color columns at the end of line
 set nolazyredraw            " force screen redraw on macros execution, etc.
 
@@ -118,7 +133,8 @@ nnoremap <leader>N :call NumberToggle()<cr>
 set background=dark         " currently favorite background
 " enable a 256 color scheme when appropriate
 if &t_Co > 255 || has("gui_running")
-    colorscheme solarized
+    set termguicolors
+    colorscheme gruvbox
 endif
 
 " enable syntax highlighting if the terminal has colors
@@ -160,16 +176,12 @@ set nolist                    " don't show invisible characters by default
 set listchars=tab:»·,trail:·,extends:›,eol:¬ " symbols for tabs, empty trails
                                              " and too long lines
 " show/hide invisible chars
-nnoremap <leader>i :set list!<cr>
+nnoremap <silent> <leader>i :set list!<cr>
 
 set formatoptions=qrn1      " insert comment leader, etc.
 
 set showmatch               " when inserting a bracket show a matching one
 set matchtime=2             " show a matching bracket for <n> msec
-" match bracket pairs with tab in normal and visual mode
-nnoremap <tab> %
-vnoremap <tab> %
-
 set nrformats=              " <C-a> and <C-x> only in-/decrement decimals
 
 " search {{{
@@ -180,21 +192,19 @@ set hlsearch                " highlight searches
 set incsearch               " search during typing
 set gdefault                " replace globally by default, /g to disable
 
-" use Vim's 'very magic' search syntax, i.e. \( and \{ for braces
-" also highlight current position before searching
-nnoremap / ms/\v
-vnoremap / ms/\v
 " toggle search highlighting
 nnoremap <silent> <leader>/ :nohlsearch<cr>
 
 " }}}
 
-" indentation and formatting
+" {{{ indentation and formatting
 
 set autoindent              " always set autoindenting on
 set copyindent              " copy the previous indentation on autoindenting
 
-" folding {{{
+" indentLine
+let g:indentLine_char = '¦'
+
 set foldenable              " enable folding
 set foldcolumn=2            " add a fold column
 set foldmethod=marker       " detect triple-{ style fold markers
@@ -204,39 +214,44 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 nnoremap z0 :set foldlevel=0<cr>
 nnoremap z1 :set foldlevel=1<cr>
-nnoremap z2 :set foldlevel=2<cr>
-nnoremap z3 :set foldlevel=3<cr>
-nnoremap z4 :set foldlevel=4<cr>
-nnoremap z5 :set foldlevel=5<cr>
 " }}}
 
-" netrw {{
-let g:netrw_liststyle=3     " tree style
-let g:netrw_banner=0        " no banner
+" {{{ netrw
 let g:netrw_altv=1          " open files on right
+let g:netrw_banner=0        " no banner
+let g:netrw_browse_split=2  " open files in a new vertical split
+let g:netrw_home=$XDG_CACHE_HOME.'/nvim'
+let g:netrw_liststyle=3     " tree style
 let g:netrw_preview=1       " open previews vertically
-let s:treedepthstring= "│ "
-" }}
+let g:netrw_winsize=25      " set window width to 25%
+let s:treedepthstring= '¦ '
+" }}}
+
+" grepping around
+if executable('ag') 
+    " Note we extract the column as well as the file and line number
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepformat=%f:%l:%c%m
+endif
 
 " custom key mappings
 
 " toggle paste mode
 set pastetoggle=<F2>
 
+" editing
 " make Y behave as C and D
 nnoremap Y y$
+
+" browsing
 " scroll 3 lines at once
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
+nnoremap <silent> <leader>j :jump<cr>
 
-" scroll by display lines by default
-nnoremap j gj
-nnoremap k gk
-inoremap <Down> <C-o>g<Down>
-inoremap <Up> <C-o>g<Up>
 
 " quickly reload the vimrc with ,sv
-nmap <silent> <leader>sv :source $MYVIMRC<cr>
+nnoremap <silent> <leader>sv :source $MYVIMRC<cr>
 
 " clean whitespace
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>
@@ -244,19 +259,27 @@ nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>
 " re-hardwrap paragraps
 nnoremap <leader>q gqip
 
-" show buffers
-nmap <silent> <leader>b :buffers<cr>
-
+" window management
+nnoremap <silent> - :split<cr>
+nnoremap <silent> _ :vsplit<cr>
+nnoremap <silent> <C-c> :close<cr>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <silent> <C-q> :quit<cr>
+" buffer and tab management
+nmap <silent> <M-b> :buffers<cr>
+nmap <silent> <M-h> :tabprev<cr>
+nmap <silent> <M-j> :bprev<cr>
+nmap <silent> <M-k> :bnext<cr>
+nmap <silent> <M-l> :tabnext<cr>
+nmap <silent> <M-t> :tabs<cr>
 " show marks
-nmap <silent> <leader>m :marks<cr>
-
+nmap <silent> <M-m> :marks<cr>
 " show registers
-nmap <silent> <leader>r :registers<cr>
-
-" custom commands
-command! W w !sudo tee % > /dev/null
-
-" autocommands
-
-"helptags $HOME/.vim/doc
+nmap <silent> <M-r> :registers<cr>
+" grepping around
+nmap <silent> <leader>h :cprev<cr>
+nmap <silent> <leader>l :cnext<cr>
 

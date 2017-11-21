@@ -1,0 +1,6 @@
+# Vagrant
+Host 192.168.33.*
+ User vagrant
+ StrictHostKeyChecking no
+ UserKnownHostsFile /dev/null
+

@@ -1,0 +1,6 @@
+---
+- name: apply bootstrapping roles
+  hosts: localhost
+  roles:
+    - { role: macos, when: ansible_distribution == 'MacOSX', tags: macos }
+    - { role: tagir, tags: tagir }

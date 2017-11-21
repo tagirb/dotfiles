@@ -1,0 +1,14 @@
+#
+# macOS-specific .bashrc
+#
+
+# aliases {{{
+alias ll='ls -lF@'
+alias la='ls -laF@'
+alias ltr='ls -ltr@'
+
+alias gls='gls --color=auto'
+alias gll='gls --color=auto -lF'
+alias gla='gls --color=auto -laF'
+alias gltr='gls --color=auto -ltr'
+# }}}

@@ -1,0 +1,106 @@
+---
+macos_defaults:
+  # global settings
+  NSGlobalDomain:
+
+    # Fonts
+    - AppleFontSmoothing: { int: 2 }
+
+    # Keyboard
+    - InitialKeyRepeat: { int: 20 }
+    - KeyRepeat: { int: 4 }
+
+    # UI
+    - AppleEnableMenuBarTransparency: { bool: false }
+    - AppleInterfaceStyle: { string: Dark }
+    - AppleShowAllExtensions: { bool: true }
+    - AppleShowScrollBars: { string: Always }
+    - CGDisableCursorLocationMagnification: { bool: true }
+    - NSAutomaticWindowAnimationsEnabled: { bool: false }
+    - NSScrollAnimationEnabled: { bool: false }
+    - NSWindowResizeTime: { float: 0.001 }
+    - QLPanelAnimationDuration: { float: 0 }
+
+    # iCloud
+    - NSDocumentSaveNewDocumentsToCloud: { bool: false }
+
+    # Auto-correction
+    - NSAutomaticCapitalizationEnabled: { bool: false }
+    - NSAutomaticDashSubstitutionEnabled: { bool: false }
+    - NSAutomaticPeriodSubstitutionEnabled: { bool: false }
+    - NSAutomaticQuoteSubstitutionEnabled: { bool: false }
+    - NSAutomaticSpellingCorrectionEnabled: { bool: false }
+    - NSAutomaticTextCompletionEnabled: { bool: false }
+
+  # Screen saver
+  com.apple.screensaver:
+    - askForPassword: { int: 1 }
+    - askForPasswordDelay: { float: 0.0 }
+
+  # .DS_Store
+  com.apple.desktopservices:
+    - DSDontWriteNetworkStores: { bool: true }
+    - DSDontWriteUSBStores: { bool: true }
+
+  # Crash Reporter
+  com.apple.CrashReporter:
+    - DialogType: { string: none }
+
+  # disable translucent effects
+  com.apple.universalaccess:
+    - increaseContrast: { bool: true }
+    - reduceTransparency: { bool: true }
+
+  # Finder
+  com.apple.Finder:
+    - AppleShowAllFiles: { bool: true }
+    - DisableAllAnimations: { bool: true }
+    - FXEnableExtensionChangeWarning: { bool: false }
+    - FXPreferredViewStyle: { string: Nlsv }
+    - QuitMenuItem: { bool: true }
+    - ShowPathbar: { bool: true }
+    - ShowStatusBar: { bool: true }
+    - WarnOnEmptyTrash: { bool: false }
+    - _FXShowPosixPathInTitle: { bool: true }
+    - _FXSortFoldersFirst: { bool: true }
+
+  # Dashboard
+  com.apple.dashboard:
+    - mcx-disabled: { bool: true }
+
+  # Dock
+  com.apple.dock:
+    - autohide-delay: { float: 0 }
+    - autohide: { bool: true }
+    - dashboard-in-overlay: { bool: true }
+    - expose-animation-duration: { float: 0.1 }
+    - launchanim: { bool: false }
+    - mineffect: { string: scale }
+    - minimize-to-application: { bool: true }
+    - mru-spaces: { bool: false }
+    - show-process-indicators: { bool: true }
+    - showhidden: { bool: true }
+
+  # iTerm2
+  com.googlecode.iterm2:
+    - AppleAntiAliasingThreshold: { int: 1 }
+    - AppleScrollAnimationEnabled: { int: 0 }
+    - AppleSmoothFixedFontsSizeThreshold: { int: 1 }
+    - AutoHideTmuxClientSession: { int: 0 }
+    - CopySelection: { int: 1 }
+  # Mail
+  com.apple.mail:
+    - DisableReplyAnimations: { bool: true }
+    - DisableSendAnimations: { bool: true } 
+
+  # Safari
+  com.apple.Safari:
+    - HomePage: { string: 'about:blank' }
+    - ShowFullURLInSmartSearchField: { bool: true }
+    - SuppressSearchSuggestions: { bool: true }
+    - UniversalSearchEnabled: { bool: false }
+    - WebKitInitialTimedLayoutDelay: { float: 0.25 }
+
+  # Siri
+  com.apple.Siri:
+    - StatusMenuVisible: { int: 0 }

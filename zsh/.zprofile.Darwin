@@ -1,0 +1,14 @@
+# re-define PATH to prefer local (Homebrew) binaries
+path=(
+    '/usr/local/bin'
+    '/usr/bin'
+    '/bin'
+    '/usr/local/sbin'
+    '/usr/sbin'
+    '/sbin'
+)
+export PATH
+
+# configure dircolors for GNU ls (gls)
+eval $(gdircolors -b)
+

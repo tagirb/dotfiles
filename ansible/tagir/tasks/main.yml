@@ -1,0 +1,39 @@
+---
+- name: files and directories in ~ are created
+  file:
+    path=~/{{ item.path }} state={{ item.state | default('directory') }}
+    mode={{ item.mode | default('0755') }}
+  with_items:
+    - { path: '.cache/nvim/backup' }
+    - { path: '.cache/nvim/undo' }
+    - { path: '.config/nvim/autoload' }
+    - { path: '.config/zsh/completion' }
+    - { path: '.gnupg', mode: '0700' }
+    - { path: '.hushlogin', mode: '0644', state: 'file' }
+    - { path: '.password-store-devops' }
+    - { path: '.ssh', mode: '0700' }
+    - { path: '.share/nvim' }
+    - { path: '.share/zsh' }
+    - { path: '.share/vscode-insiders' }
+
+- name: symlinks in ~ are created
+  file:
+    src=~/{{ item.src }} dest=~/{{ item.dest }} state=link
+  with_items:
+    - { src: 'dotfiles', dest: '.config' }
+    - { src: 'dotfiles/zsh/.zshenv', dest: '.zshenv' }
+    - { src: '.share/vscode-insiders', dest: '.vscode-insiders' }
+
+- name: absolute symlinks are created
+  file:
+    src={{ item.src }} dest={{ item.dest }} state=link
+  with_items:
+    - { src: '/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion',
+        dest: '~/.config/zsh/completion/_docker' }
+    - { src: '/Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion',
+        dest: '~/.config/zsh/completion/_docker-compose' }
+  when: ansible_distribution == 'MacOSX'
+ 
+- name: neovim plugins are installed
+  shell: nvim +PlugUpgrade +PlugInstall +qall
+

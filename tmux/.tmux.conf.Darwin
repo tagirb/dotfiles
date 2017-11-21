@@ -1,0 +1,25 @@
+#
+# macOS-specific tmux configuration
+#
+# vim: set ft=tmux:
+
+# not compatible with iTerm integration mode
+setw -g aggressive-resize off
+
+# makes tmux integrate properly with OSX clipboard
+# 'set clipboard=unnamed' doesn't work in vim otherwise
+# run a non-login shell (source .bashrc)
+#set -g default-command "reattach-to-user-namespace $SHELL"
+# run a login shell (source .bash_profile)
+set -g default-command "reattach-to-user-namespace -l $SHELL"
+
+# set terminal overrides for iTerm
+# - dim: dimmed text
+# - Ms: unofficial, store the current buffer in the host's terminal selection
+# - ritm, sitm: italic font
+# - Tc: true color support
+# - XT: xterm terminal title
+set -g terminal-overrides 'xterm-256color:dim=\E[2m:Ms=\E]52;%p1%s;%p2%s\007:ritm=\E[23m:sitm=\E[3m:Tc:XT'
+# Not supported by iTerm yet are:
+# - smxx: strikethrough (\E[9m)
+# - cursor color (Cr, Cs) and shape (Ss, Se)

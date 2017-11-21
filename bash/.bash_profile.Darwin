@@ -1,0 +1,24 @@
+#
+# macOS-specific .bash_profile
+#
+# vim: set ft=sh:
+
+# enable colors for MacOS CLI utils
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# import profile entries from brewed utils
+brew=$(brew --prefix)
+if [[ -d $brew/etc/profile.d ]]; then
+    for f in $brew/etc/profile.d/*; do
+        source $f
+    done
+fi
+unset brew
+
+# add binaries from Homebrew to PATH
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+# configure dircolors for GNU ls (gls)
+eval $(gdircolors -b)

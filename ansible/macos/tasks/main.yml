@@ -1,0 +1,83 @@
+---
+- name: group 'docker' with gid '1000' is created
+  group: name=docker gid=1000 system=no
+  become: true
+
+- name: sudo with nopasswd is enabled for group 'wheel'
+  copy: src=wheel dest=/etc/sudoers.d validate="visudo -cf %s"
+  become: true
+
+- name: current user is added to groups 'wheel' and 'docker'
+  user: name={{ ansible_user_id }} groups={{ item }} append=yes
+  with_items:
+    - wheel
+    - docker
+  become: true
+
+- name: homebrew cask is installed
+  homebrew: name=cask state=latest
+
+- name: additional homebrew repos is installed
+  homebrew_tap: name={{ item }} state=present
+  with_items:
+    - caskroom/versions
+    - caskroom/fonts
+
+- name: homebrew packages are installed
+  homebrew: state=present name={{ item }}
+  with_items:
+    - bash
+    - bash-completion
+    - curl
+    - gawk
+    - git
+    - jq
+    - neovim
+    - pass
+    - pinentry-mac
+    - python
+    - python3
+    - tmux
+    - watch
+    - wget
+
+- name: homebrew GNU packages are installed with default names
+  homebrew: state=present name={{ item }} install_options=with-default-names
+  with_items:
+    - gnu-sed
+    - gnu-tar
+    - grep
+
+- name: homebrew cask packages are installed
+  homebrew_cask: state=present name={{ item }}
+  with_items:
+    - docker-edge
+    - firefox
+    - font-anonymous-pro
+    - google-chrome
+    - hammerspoon
+    - iterm2
+    - kitematic
+    - scroll-reverser
+    - slack
+    - spectacle
+    - vagrant
+    - visual-studio-code-insiders
+    - yakyak
+
+- name: homebrew packages are upgraded
+  homebrew: upgrade_all=yes
+
+- name: current shell is set to '/usr/local/bin/zsh'
+  user: name={{ ansible_user_id }} shell=/usr/local/bin/zsh
+  become: yes
+
+- name: macOS defaults are configured
+  osx_defaults:
+    host=currentHost
+    domain={{ item.domain }}
+    key={{ item.key }}
+    type={{ item.type }}
+    value={{ item.value }}
+  with_defaults: "{{ macos_defaults }}"
+
