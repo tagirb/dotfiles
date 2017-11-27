@@ -32,8 +32,8 @@ export GPG_TTY=$(tty)
 
 # import the private profile from pass
 if pass version >/dev/null 2>&1 \
-   && [[ -f .password-store/dotfiles/.zprofile ]]; then
-    eval $(pass show dotfiles/.zprofile)
+   && [[ -f .password-store/dotfiles/zprofile ]]; then
+    eval $(pass show dotfiles/zprofile)
 fi
 # }}}
 

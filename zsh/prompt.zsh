@@ -27,19 +27,21 @@ RPROMPT() {
     fi
 
     # when in Git repo
+    # RPROMPT: action stash worktree index remote master core 
+    local rprompt='%B'
+
     local info=$(git rev-parse --git-dir 2>/dev/null)
     local name=$(basename $(dirname $info:A))
-    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    [[ $branch != 'HEAD' ]] || branch='*'
-    local action=$(_rprompt_git_action $info)
-    # RPROMPT: action ACDMR DM? +5-3 master core 
-    local rprompt='%B'
-    
+
     # action
+    local action=$(_rprompt_git_action $info)
     [[ -n "$action" ]] && rprompt+="%F{red}%{\x1b[3m%}$action%{\x1b[0m%}"
     
-    # TODO: stash
-    # status (TODO: in small repos only?)
+    # stash
+    [[ -f $info/refs/stash || -f $info/logs/refs/stash ]] \
+        && rprompt+='%F{226}⭑'
+
+    # working tree + index
     local gst="$(git status --porcelain 2>/dev/null \
         | awk -f $ZDOTDIR/_git_status.awk -F '')"
     [[ -n "$gst" ]] && rprompt+="$gst"
@@ -49,6 +51,8 @@ RPROMPT() {
     [[ -n "$remote" ]] && rprompt+="%K{239} $(_rprompt_git_remote) "
 
     # branch
+    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    [[ $branch == 'HEAD' ]] && branch='Ø'
     rprompt+="%F{black}%K{yellow} $branch "
 
     # name
