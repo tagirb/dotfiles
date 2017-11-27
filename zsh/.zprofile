@@ -13,6 +13,8 @@ export LESS='-iJmnRW'
 export LESSHISTFILE=-
 
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+
+export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
 # }}}
 
 # SSH and GPG agent {{{
