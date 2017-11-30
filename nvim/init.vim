@@ -7,7 +7,7 @@ set termencoding=utf-8      " set all encodings to utf-8
 set encoding=utf-8
 set fileencoding=utf-8
 
-let mapleader=' '           " change mapleader to comma
+let mapleader=' '           " change mapleader to space
 let g:mapleader=' '
 set timeoutlen=500          " set mapleader timeout to 500ms
 
