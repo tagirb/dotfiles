@@ -48,7 +48,7 @@ esac
 
 info "running Ansible configuration playbook"
 (
-    cd $mydir/init
+    cd $mydir/_init
     # check if sudo needs a password
     if sudo -n true; then
         ansible-playbook playbook.yml

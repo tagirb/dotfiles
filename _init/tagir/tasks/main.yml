@@ -4,6 +4,7 @@
     path=~/{{ item.path }} state={{ item.state | default('directory') }}
     mode={{ item.mode | default('0755') }}
   with_items:
+    - { path: '.ansible' }
     - { path: '.cache/nvim/backup' }
     - { path: '.cache/nvim/undo' }
     - { path: '.config/nvim/autoload' }
@@ -20,8 +21,10 @@
   file:
     src={{ item.src }} dest=~/{{ item.dest }} state=link
   with_items:
-    - { src: 'dotfiles/zsh/.zshenv', dest: '.zshenv' }
+    - { src: '.config/zsh/.zshenv', dest: '.zshenv' }
     - { src: '.share/vscode-insiders', dest: '.vscode-insiders' }
+    - { src: '../.config/ansible/ansible.cfg', dest: '.ansible/ansible.cfg' }
+    - { src: '../.config/ansible/pass.yml', dest: '.ansible/pass.yml' }
 
 - name: absolute symlinks are created
   file:

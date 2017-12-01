@@ -10,13 +10,12 @@ export PROMPT='$(PROMPT)'
 export RPROMPT='$(RPROMPT)'
 
 PROMPT() {
-    # show relative path in a Git repo
     path=$(git rev-parse --show-prefix 2>/dev/null)
     if (( $? )); then
         echo '%B%F{red}%(?..[%?])%f%b> '
     else
-        [[ -n "$path" ]] || path='.'
-        echo "%B%F{red}%(?..[%?])%F{blue}${path%/}%f>%b "
+        # show relative path in a Git repo
+        echo "%B%F{red}%(?..[%?])%F{yellow}⑂%F{blue}/${path%/}%f>%b "
     fi
 }
 RPROMPT() {
