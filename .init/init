@@ -48,12 +48,12 @@ esac
 
 info "running Ansible configuration playbook"
 (
-    cd $mydir/_init
+    cd $mydir
     # check if sudo needs a password
     if sudo -n true; then
-        ansible-playbook playbook.yml
+        ANSIBLE_CONFIG=./ansible.cfg ansible-playbook playbook.yml
     else
-        ansible-playbook --ask-become-pass playbook.yml
+        ANSIBLE_CONFIG=./ansible.cfg ansible-playbook --ask-become-pass playbook.yml
     fi
 )
 

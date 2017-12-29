@@ -25,6 +25,8 @@
 	added = yellow
 	changed = green
 	untracked = cyan
+[fetch]
+    prune = true
 [pull]
     ff = only
 [push]
