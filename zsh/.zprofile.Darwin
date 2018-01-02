@@ -1,3 +1,6 @@
+# add go variables
+export GOPATH="$HOME/go"
+
 # re-define PATH to prefer local (Homebrew) binaries
 path=(
     '/usr/local/bin'
@@ -6,6 +9,7 @@ path=(
     '/usr/local/sbin'
     '/usr/sbin'
     '/sbin'
+    "$GOPATH/bin"
 )
 export PATH
 
