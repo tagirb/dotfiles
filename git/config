@@ -4,6 +4,7 @@
 	co = checkout
     l = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset'
     lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''                           %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
 	st = !"git --no-pager diff --shortstat HEAD && git --no-pager status -sb"
     unstage = rm --cached
 [apply]
@@ -31,6 +32,8 @@
     ff = only
 [push]
 	default = simple
+[status]
+    submoduleSummary = true
 [user]
     name = Tagir Bakirov
     email = tagir.bakirov@reservix.de
