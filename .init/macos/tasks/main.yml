@@ -68,6 +68,12 @@
 - name: homebrew packages are upgraded
   homebrew: upgrade_all=yes
 
+- name: homebrew packages are cleaned up
+  shell: brew cleanup
+
+- name: homebrew cask packages are upgraded and cleaned up
+  shell: brew cask upgrade && brew cask cleanup
+
 - name: current shell is set to '/usr/local/bin/zsh'
   user: name={{ ansible_user_id }} shell=/usr/local/bin/zsh
   become: yes

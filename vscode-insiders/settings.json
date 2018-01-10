@@ -38,5 +38,6 @@
     "editor.wordWrap": "on",
     "editor.wrappingIndent": "none",
     "workbench.startupEditor": "none",
-    "editor.renderWhitespace": "all"
+    "editor.renderWhitespace": "all",
+    "workbench.statusBar.feedback.visible": "false"
 }
