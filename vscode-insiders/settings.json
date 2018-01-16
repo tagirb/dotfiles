@@ -1,23 +1,4 @@
 {
-    "vim.disableAnnoyingNeovimMessage": true,
-    "vim.enableNeovim": false,
-    "vim.easymotion": false,
-    "vim.incsearch": true,
-    "vim.useSystemClipboard": true,
-    "vim.useCtrlKeys": true,
-    "vim.hlsearch": true,
-    "vim.leader": "<space>",
-    "vim.cursorStylePerMode" : {
-        "normal": "underline",
-        "insert": "line-thin",
-        "replace": "block-outline"
-    },
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["j", "j"],
-            "after": ["<Esc>"]
-        }
-    ],
     "editor.fontFamily": "Anonymous Pro, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 16,
     "editor.fontWeight": 100,
@@ -39,5 +20,19 @@
     "editor.wrappingIndent": "none",
     "workbench.startupEditor": "none",
     "editor.renderWhitespace": "all",
-    "workbench.statusBar.feedback.visible": "false"
+    "workbench.statusBar.feedback.visible": false,
+    "gitlens.advanced.messages": {
+        "suppressCommitHasNoPreviousCommitWarning": false,
+        "suppressCommitNotFoundWarning": false,
+        "suppressFileNotUnderSourceControlWarning": false,
+        "suppressGitVersionWarning": false,
+        "suppressLineUncommittedWarning": false,
+        "suppressNoRepositoryWarning": false,
+        "suppressUpdateNotice": false,
+        "suppressWelcomeNotice": true
+    },
+    "gitHistory.logLevel": "Error",
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "gitlens.blame.line.enabled": false,
 }

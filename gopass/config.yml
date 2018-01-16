@@ -1,0 +1,24 @@
+root:
+  askformore: false
+  autoimport: true
+  autosync: true
+  cliptimeout: 45
+  noconfirm: false
+  nopager: false
+  path: /Users/tagir/.password-store
+  safecontent: false
+  usesymbols: false
+  nocolor: false
+mounts:
+  devops:
+    askformore: false
+    autoimport: true
+    autosync: true
+    cliptimeout: 45
+    noconfirm: false
+    nopager: false
+    path: /Users/tagir/.password-store-devops
+    safecontent: false
+    usesymbols: false
+    nocolor: false
+version: 1.6.7

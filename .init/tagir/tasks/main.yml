@@ -25,6 +25,9 @@
     - { src: '.share/vscode-insiders', dest: '.vscode-insiders' }
     - { src: '../.config/ansible/ansible.cfg', dest: '.ansible/ansible.cfg' }
     - { src: '../.config/ansible/pass.yml', dest: '.ansible/pass.yml' }
+    - { src: '../.config/gnupg/dirmngr.conf', dest: '.gnupg/dirmngr.conf' }
+    - { src: '../.config/gnupg/gpg-agent.conf', dest: '.gnupg/gpg-agent.conf' }
+    - { src: '../.config/gnupg/gpg.conf', dest: '.gnupg/gpg.conf' }
 
 - name: absolute symlinks are created
   file:
