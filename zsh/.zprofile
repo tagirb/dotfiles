@@ -7,8 +7,6 @@ export LC_ALL='en_US.UTF-8'
 export EDITOR='nvim'
 export PAGER='less'
 
-export GNUPGHOME="$XDG_CONFIG_HOME"/gnupg
-
 export LESS='-iJmnRW'
 export LESSHISTFILE=-
 
