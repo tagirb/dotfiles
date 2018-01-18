@@ -1,4 +1,3 @@
-# enable parameter expansion, command substitution and arithmetic expansion
 setopt prompt_subst
 
 autoload -Uz promptinit
@@ -25,11 +24,10 @@ RPROMPT() {
     fi
 
     # when in Git repo
-    # RPROMPT: action stash worktree index remote master core 
+    # RPROMPT: action stash worktree index remote master core/main 
     local rprompt='%B'
 
     local info=$(git rev-parse --git-dir 2>/dev/null)
-    local name=$(basename $(dirname $info:A))
 
     # action
     local action=$(_rprompt_git_action $info)
@@ -53,8 +51,10 @@ RPROMPT() {
     [[ $branch == 'HEAD' ]] && branch='Ø'
     rprompt+="%F{black}%K{3} $branch "
 
-    # name
-    rprompt+="%K{4} $name %k%f%b"
+    # repo directory and name
+    local dir=${${${info:A}/$HOME/\~}:h:h:t}
+    local name=$info:A:h:t
+    rprompt+="%K{4} $dir/$name %k%f%b"
 
     echo $rprompt
 }
