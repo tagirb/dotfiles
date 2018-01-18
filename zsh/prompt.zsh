@@ -12,16 +12,15 @@ export RPROMPT='$(RPROMPT)'
 PROMPT() {
     path=$(git rev-parse --show-prefix 2>/dev/null)
     if (( $? )); then
-        echo '%B%F{red}%(?..[%?])%f%b▸ '
+        echo '%B%F{1}%(?..[%?])%f%F{4}%~%f%F{8}$%f%b '
     else
         # show relative path in a Git repo
-        echo "%B%F{red}%(?..[%?])%F{yellow}⑂%F{blue}/${path%/}%f▸%b "
+        echo "%B%F{1}%(?..[%?])%F{3}⑃%F{4}/${path%/}%f%F{8}$%f%b "
     fi
 }
 RPROMPT() {
     # when not in Git repo
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) != 'true' ]]; then
-        echo '%F{green}%~%f'
         return 0
     fi
 
@@ -34,7 +33,7 @@ RPROMPT() {
 
     # action
     local action=$(_rprompt_git_action $info)
-    [[ -n "$action" ]] && rprompt+="%F{red}%{\x1b[3m%}$action%{\x1b[0m%}"
+    [[ -n "$action" ]] && rprompt+="%F{1}%{\x1b[3m%}$action%{\x1b[0m%}"
     
     # stash
     [[ -f $info/refs/stash || -f $info/logs/refs/stash ]] \
@@ -52,10 +51,10 @@ RPROMPT() {
     # branch
     local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     [[ $branch == 'HEAD' ]] && branch='Ø'
-    rprompt+="%F{black}%K{yellow} $branch "
+    rprompt+="%F{black}%K{3} $branch "
 
     # name
-    rprompt+="%K{blue} $name %k%f%b"
+    rprompt+="%K{4} $name %k%f%b"
 
     echo $rprompt
 }
@@ -87,8 +86,8 @@ _rprompt_git_remote() {
     local behind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
 
     local rm
-    [[ -n $ahead ]] && (( $ahead )) && rm+="%F{blue}↥${ahead}"
-    [[ -n $behind ]] && (( $behind )) && rm+="%F{red}↧${behind}"
+    [[ -n $ahead ]] && (( $ahead )) && rm+="%F{4}↥${ahead}"
+    [[ -n $behind ]] && (( $behind )) && rm+="%F{1}↧${behind}"
 
     echo $rm
 }

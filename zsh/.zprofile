@@ -10,25 +10,12 @@ export PAGER='less'
 export LESS='-iJmnRW'
 export LESSHISTFILE=-
 
+export GPG_TTY="$(tty)"
+
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
 # }}}
-
-# SSH and GPG agent {{{
-
-## SSH agent
-ssh-add -l >/dev/null 2>&1 \
-|| ssh-add ~/.ssh/id_rsa
-
-## GPG agent
-if ! pgrep gpg-agent >/dev/null 2>&1; then
-    # start up GPG agent
-    gpg-agent --daemon --options gpg-agent.conf.$(uname -s) >/dev/null 2>&1
-    # trigger asking the passphrase
-    echo 'test' | gpg --symmetric >/dev/null 2>&1
-fi
-export GPG_TTY=$(tty)
 
 # import the private profile from pass
 if pass version >/dev/null 2>&1 \
