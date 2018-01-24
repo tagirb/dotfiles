@@ -1,8 +1,9 @@
 ---
 - name: files and directories in ~ are created
   file:
-    path=~/{{ item.path }} state={{ item.state | default('directory') }}
-    mode={{ item.mode | default('0755') }}
+    path: ~/{{ item.path }}
+    state: "{{ item.state | default('directory') }}"
+    mode: "{{ item.mode | default('0755') }}"
   with_items:
     - { path: '.ansible/fc' }
     - { path: '.cache/nvim/backup' }
@@ -15,30 +16,20 @@
     - { path: '.ssh', mode: '0700' }
     - { path: '.share/nvim' }
     - { path: '.share/zsh' }
-    - { path: '.share/vscode-insiders' }
 
 - name: symlinks in ~ are created
   file:
-    src={{ item.src }} dest=~/{{ item.dest }} state=link
+    src: "{{ item.src }}"
+    dest: ~/{{ item.dest }}
+    state: link
   with_items:
     - { src: '.config/zsh/.zshenv', dest: '.zshenv' }
-    - { src: '.share/vscode-insiders', dest: '.vscode-insiders' }
     - { src: '../.config/ansible/ansible.cfg', dest: '.ansible/ansible.cfg' }
     - { src: '../.config/ansible/pass.yml', dest: '.ansible/pass.yml' }
     - { src: '../.config/gnupg/dirmngr.conf', dest: '.gnupg/dirmngr.conf' }
     - { src: '../.config/gnupg/gpg-agent.conf', dest: '.gnupg/gpg-agent.conf' }
     - { src: '../.config/gnupg/gpg.conf', dest: '.gnupg/gpg.conf' }
 
-- name: absolute symlinks are created
-  file:
-    src={{ item.src }} dest={{ item.dest }} state=link
-  with_items:
-    - { src: '/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion',
-        dest: '~/.config/zsh/completion/_docker' }
-    - { src: '/Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion',
-        dest: '~/.config/zsh/completion/_docker-compose' }
-  when: ansible_distribution == 'MacOSX'
- 
 - name: neovim plugins are installed
   shell: nvim +PlugUpgrade +PlugInstall +qall
 

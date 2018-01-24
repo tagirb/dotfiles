@@ -24,6 +24,7 @@ RPROMPT() {
     fi
 
     # when in Git repo
+
     # RPROMPT: action stash worktree index remote master core/main 
     local rprompt='%B'
 

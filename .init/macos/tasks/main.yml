@@ -109,3 +109,30 @@
     value: "{{ item.value }}"
   with_defaults: "{{ macos_defaults }}"
 
+- name: absolute symlinks are created
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: '/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion',
+        dest: '~/.config/zsh/completion/_docker' }
+    - { src: '/Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion',
+        dest: '~/.config/zsh/completion/_docker-compose' }
+  when: ansible_distribution == 'MacOSX'
+ 
+- name: files and directories in ~ are created
+  file:
+    path: ~/{{ item.path }}
+    state: "{{ item.state | default('directory') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  with_items:
+    - { path: 'Library/LaunchAgents' }
+
+- name: custom configuration files are copied
+  copy:
+    src: "{{ item.file }}"
+    dest: "{{ item.dir }}/{{ item.file }}"
+  with_items:
+    - { file: ssh-add-A.plist, dir: ~/Library/LaunchAgents }
+
