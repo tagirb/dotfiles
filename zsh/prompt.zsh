@@ -50,13 +50,13 @@ RPROMPT() {
     # branch
     local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     [[ $branch == 'HEAD' ]] && branch='Ø'
-    rprompt+="%F{black}%K{3} $branch "
+    rprompt+="%F{0}%K{3} $branch "
 
     local root=${info:A:h}
     local name
     if [[ $root =~ ^$HOME\/git ]]; then
-        # $HOME/git/path/to/repo => ⌂/path/to/repo
-        name=${root/$HOME\/git/⌂}
+        # $HOME/git/path/to/repo => path/to/repo
+        name=${root/$HOME\/git/}
     elif [[ $root =~ ^$HOME ]]; then
         # $HOME/path/to/repo => ~/path/to/repo
         name=${root/$HOME/\~}
