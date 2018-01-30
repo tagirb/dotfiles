@@ -52,10 +52,19 @@ RPROMPT() {
     [[ $branch == 'HEAD' ]] && branch='Ø'
     rprompt+="%F{black}%K{3} $branch "
 
-    # repo directory and name
-    local dir=${${${info:A}/$HOME/\~}:h:h:t}
-    local name=$info:A:h:t
-    rprompt+="%K{4} $dir/$name %k%f%b"
+    local root=${info:A:h}
+    local name
+    if [[ $root =~ ^$HOME\/git ]]; then
+        # $HOME/git/path/to/repo => ⌂/path/to/repo
+        name=${root/$HOME\/git/⌂}
+    elif [[ $root =~ ^$HOME ]]; then
+        # $HOME/path/to/repo => ~/path/to/repo
+        name=${root/$HOME/\~}
+    else
+        # absolute path to the repo
+        name=$root
+    fi
+    rprompt+="%K{4} $name %k%f%b"
 
     echo $rprompt
 }
