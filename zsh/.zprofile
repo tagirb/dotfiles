@@ -7,7 +7,7 @@ export LC_ALL='en_US.UTF-8'
 export EDITOR='nvim'
 export PAGER='less'
 
-export LESS='-iJmnRW'
+export LESS='-FiJmnRWX'
 export LESSHISTFILE=-
 
 export GPG_TTY="$(tty)"
