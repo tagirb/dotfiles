@@ -71,18 +71,19 @@
     state: present
     name: "{{ item }}"
   with_items:
+    - dash
     - docker-edge
     - firefox
     - font-anonymous-pro
     - google-chrome
     - gpg-suite
+    - hammerspoon
     - iterm2
     - kitematic
     - scroll-reverser
     - slack
     - tunnelblick
     - vagrant
-    - visual-studio-code-insiders
 
 - name: homebrew packages are upgraded
   homebrew:
@@ -114,12 +115,13 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     state: link
+    force: yes
   with_items:
     - { src: '/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion',
         dest: '~/.config/zsh/completion/_docker' }
     - { src: '/Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion',
         dest: '~/.config/zsh/completion/_docker-compose' }
-  when: ansible_distribution == 'MacOSX'
+    - { src: '~/.config/hammerspoon', dest: '~/.hammerspoon' }
  
 - name: files and directories in ~ are created
   file:
