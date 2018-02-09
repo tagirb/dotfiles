@@ -52,6 +52,7 @@
     - pinentry-mac
     - python
     - python3
+    - ripgrep
     - tmux
     - watch
     - wget
