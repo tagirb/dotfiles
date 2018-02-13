@@ -19,6 +19,10 @@ set mouse=                  " disable mouse
 
 set updatetime=250          " process buffer changes every 250ms
 
+let mapleader=' '           " change mapleader to space
+let g:mapleader=' '
+set timeoutlen=500          " set mapleader timeout to 500ms
+
 " }}}
 
 " paths {{{
@@ -46,7 +50,7 @@ Plug 'morhetz/gruvbox'
 Plug 'Yggdroot/indentLine'
 
 " file/buffer management
-Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -54,6 +58,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 
 " editing
+Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 
 " syntax highlighting
@@ -232,32 +237,43 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 
 " Plugins {{{
+
+" disable various stock plugins
+let g:loaded_rrhelper=0
+let g:loaded_gzip=0
+let g:loaded_getscriptPlugin=0
+let g:loaded_vimballPlugin=0
+let g:loaded_zipPlugin=0
+let g:loaded_tarPlugin=0
+
 " indentLine {{{
 let g:indentLine_enabled = 1
 let g:indentLine_char = '¦'
 " }}}
 
-" {{{ netrw
-let g:netrw_altv=1          " open files on right
-let g:netrw_banner=0        " no banner
-let g:netrw_browse_split=0  " open files in the current window
-let g:netrw_home=$XDG_CACHE_HOME.'/nvim'
-let g:netrw_liststyle=3     " tree style
-let g:netrw_preview=1       " open previews vertically
-let g:netrw_winsize=25      " set window width to 25%
-let s:treedepthstring= '¦ '
+" netrw -- disabled {{{
+let g:loaded_netrwPlugin=0 
+"let g:netrw_altv=1          " open files on right
+"let g:netrw_banner=0        " no banner
+"let g:netrw_browse_split=0  " open files in the current window
+"let g:netrw_home=$XDG_CACHE_HOME.'/nvim'
+"let g:netrw_liststyle=3     " tree style
+"let g:netrw_preview=1       " open previews vertically
+"let g:netrw_winsize=25      " set window width to 25%
+"let s:treedepthstring= '¦ '
+" }}}
+
+" NERDTree {{{
 " }}}
 
 " vim-gitgutter {{{
+let g:gitgutter_enabled = 0
+nnoremap <silent> <leader>gg :GitGutterToggle<cr>
 " }}}
 
 " }}}
 
 " key mappings {{{
-
-let mapleader=' '    " change mapleader to space
-let g:mapleader=' '
-set timeoutlen=500          " set mapleader timeout to 500ms
 
 " toggle paste mode
 "set pastetoggle=<F2>
