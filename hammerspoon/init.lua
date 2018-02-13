@@ -104,6 +104,11 @@ function f_keypress(key)
     end
 end
 
+-- TODO: make f3/f4 arrange windows
+--hs.hotkey.bind('', 'f3', )
+--hs.hotkey.bind('', 'f4', )
+hs.hotkey.bind('', 'f5', f_keypress('BRIGHTNESS_DOWN'))
+hs.hotkey.bind('', 'f6', f_keypress('BRIGHTNESS_UP'))
 hs.hotkey.bind('', 'f7', f_keypress('PREVIOUS'))
 hs.hotkey.bind('', 'f8', f_keypress('PLAY'))
 hs.hotkey.bind('', 'f9', f_keypress('NEXT'))
