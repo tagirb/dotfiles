@@ -1,3 +1,6 @@
+
+-- window management {{{
+
 hs_spaces = require("hs._asm.undocumented.spaces")
 
 -- initialize spaces
@@ -90,24 +93,21 @@ end
 hs.hotkey.bind(cam, 'Left', f_move_s(1))
 -- next space
 hs.hotkey.bind(cam, 'Right', f_move_s(-1))
+-- }}}
 
--- native macOS space switching via Ctrl-Left/Right is smoother
---local cm = {'ctrl','cmd'}
----- return a function to change to the prev/next space
---function f_change_s(delta)
-    --return function()
-        --local space = hs_spaces.activeSpace()
-        --local spaces = hs_spaces.query()
-        --for k, v in pairs(spaces) do
-            --if (space == v and k+delta > 0 and k+delta <= #spaces) then
-                --local space_new = spaces[k+delta]
-                --hs_spaces.changeToSpace(space_new)
-            --end
-        --end
-    --end
---end
----- change to previous space
---hs.hotkey.bind(cm, 'Left', f_change_s(1))
----- change to next space
---hs.hotkey.bind(cm, 'Right', f_change_s(-1))
+-- media keys {{{
+function f_keypress(key)
+    return function()
+        hs.eventtap.event.newSystemKeyEvent(key, true):post()
+        hs.timer.usleep(10000)
+        hs.eventtap.event.newSystemKeyEvent(key, false):post()
+    end
+end
 
+hs.hotkey.bind('', 'f7', f_keypress('PREVIOUS'))
+hs.hotkey.bind('', 'f8', f_keypress('PLAY'))
+hs.hotkey.bind('', 'f9', f_keypress('NEXT'))
+hs.hotkey.bind('', 'f10', f_keypress('MUTE'))
+hs.hotkey.bind('', 'f11', f_keypress('SOUND_UP'))
+hs.hotkey.bind('', 'f12', f_keypress('SOUND_DOWN'))
+-- }}}
