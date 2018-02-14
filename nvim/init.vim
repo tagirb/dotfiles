@@ -34,6 +34,14 @@ set viminfo='20,\"80,<50,s10,h,f0,n"$XDG_CACHE_HOME/nvim/viminfo"
 
 " plugin management {{{
 
+" disable unused standard plugins
+let g:loaded_gzip = 0
+let g:loaded_rrhelper = 0
+let g:loaded_tarPlugin = 0
+let g:loaded_tutor_mode_plugin = 0
+let g:loaded_vimballPlugin = 0
+let g:loaded_zipPlugin = 0
+
 let v_vimplug = $XDG_CONFIG_HOME . '/nvim/autoload/plug.vim'
 let v_vimplug_url =
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -43,6 +51,30 @@ endif
 unlet v_vimplug
 unlet v_vimplug_url
 
+" Plugin settings {{{
+
+" indentLine {{{
+let g:indentLine_enabled = 1
+let g:indentLine_char = '¦'
+" }}}
+
+" netrw {{{
+let g:loaded_netrwPlugin = 0
+"let g:netrw_altv=1          " open files on right
+"let g:netrw_banner=0        " no banner
+"let g:netrw_browse_split=0  " open files in the current window
+"let g:netrw_home=$XDG_CACHE_HOME.'/nvim'
+"let g:netrw_liststyle=3     " tree style
+"let g:netrw_preview=1       " open previews vertically
+"let g:netrw_winsize=25      " set window width to 25%
+"let s:treedepthstring= '¦ '
+" }}}
+
+" vim-gitgutter {{{
+let g:gitgutter_enabled = 0
+" }}}
+
+" }}}
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 
 " ui
@@ -50,16 +82,22 @@ Plug 'morhetz/gruvbox'
 Plug 'Yggdroot/indentLine'
 
 " file/buffer management
-Plug 'scrooloose/nerdtree'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'justinmk/vim-dirvish'
+Plug 'tpope/vim-eunuch'
 
 " version control
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
 " editing
-Plug 'scrooloose/nerdcommenter'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 
 " syntax highlighting
 Plug 'stephpy/vim-yaml'
@@ -67,6 +105,9 @@ Plug 'pearofducks/ansible-vim'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'markcornick/vim-terraform'
 Plug 'chr4/nginx.vim'
+
+" syntax linting
+Plug 'w0rp/ale'
 
 " documentation
 Plug 'rizzatti/dash.vim'
@@ -98,7 +139,7 @@ set title                   " change the terminal title
 set titleold=
 set textwidth=80            " limit text width to 80 chars
 set scrolloff=4             " keep this cursor context when scrolling
-set sidescrolloff=4         " 
+set sidescrolloff=4         "
 set fillchars=vert:┊,fold:┈  " window split characters
 
 set noerrorbells            " disable all bells
@@ -173,7 +214,7 @@ set wildmode=longest:full
 set wildcharm=<C-Z>
 " }}}
 
-" }}} 
+" }}}
 
 " editing behavour {{{
 set showmode                " always show current editing mode
@@ -211,7 +252,7 @@ set incsearch               " search during typing
 set gdefault                " replace globally by default, /g to disable
 
 " use ripgrep instead of grep when available
-if executable('rg') 
+if executable('rg')
     set grepprg=rg\ --vimgrep
     set grepformat=%f:%l:%c%m
 endif
@@ -236,43 +277,6 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 " }}}
 
 
-" Plugins {{{
-
-" disable various stock plugins
-let g:loaded_rrhelper=0
-let g:loaded_gzip=0
-let g:loaded_getscriptPlugin=0
-let g:loaded_vimballPlugin=0
-let g:loaded_zipPlugin=0
-let g:loaded_tarPlugin=0
-
-" indentLine {{{
-let g:indentLine_enabled = 1
-let g:indentLine_char = '¦'
-" }}}
-
-" netrw -- disabled {{{
-let g:loaded_netrwPlugin=0 
-"let g:netrw_altv=1          " open files on right
-"let g:netrw_banner=0        " no banner
-"let g:netrw_browse_split=0  " open files in the current window
-"let g:netrw_home=$XDG_CACHE_HOME.'/nvim'
-"let g:netrw_liststyle=3     " tree style
-"let g:netrw_preview=1       " open previews vertically
-"let g:netrw_winsize=25      " set window width to 25%
-"let s:treedepthstring= '¦ '
-" }}}
-
-" NERDTree {{{
-" }}}
-
-" vim-gitgutter {{{
-let g:gitgutter_enabled = 0
-nnoremap <silent> <leader>gg :GitGutterToggle<cr>
-" }}}
-
-" }}}
-
 " key mappings {{{
 
 " toggle paste mode
@@ -281,11 +285,23 @@ nnoremap <silent> <leader>gg :GitGutterToggle<cr>
 " quickly reload the vimrc with ,sv
 nnoremap <silent> <leader>sv :source $MYVIMRC<cr>
 
+" cmdline mappings {{{
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-d> <Delete>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
+cnoremap <M-d> <S-Right><Delete>
+" }}}
+
 " browsing {{{
 " scroll 3 lines at once
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
-nnoremap <silent> <leader>j :jump<cr>
+
+" jump list
+nnoremap <silent> <M-j> :jump<cr>
 
 " toggle line number modes
 nnoremap <leader>N :call NumberToggle()<cr>
@@ -309,9 +325,9 @@ nnoremap <leader>q gqip
 " }}}
 
 " window management {{{
-nnoremap <silent> - :split<cr>
-nnoremap <silent> _ :vsplit<cr>
-nnoremap <silent> <C-c> :close<cr>
+"nnoremap <silent> - :split<cr>
+"nnoremap <silent> _ :vsplit<cr>
+"nnoremap <silent> <C-c> :close<cr>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -324,16 +340,11 @@ nnoremap <silent> <Down> :resize +5<CR>
 " }}}
 
 " buffer and tab management {{{
-nmap <silent> <M-b> :buffers<cr>
 nmap <silent> <M-h> :tabprev<cr>
 nmap <silent> <M-j> :bprev<cr>
 nmap <silent> <M-k> :bnext<cr>
 nmap <silent> <M-l> :tabnext<cr>
-nmap <silent> <M-t> :tabs<cr>
 " }}}
-
-" marks
-nmap <silent> <M-m> :marks<cr>
 
 " registers
 nmap <silent> <M-r> :registers<cr>
@@ -342,5 +353,16 @@ nmap <silent> <M-r> :registers<cr>
 nnoremap z0 :set foldlevel=0<cr>
 nnoremap z1 :set foldlevel=1<cr>
 nnoremap z2 :set foldlevel=2<cr>
+
+" plugin-specific
+nnoremap <silent> <leader>gg :GitGutterToggle<cr>
+
+nnoremap <M-b> :Buffers<cr>
+nnoremap <M-f> :Files<cr>
+nnoremap <M-t> :Tags<cr>
+nnoremap <M-m> :Marks<cr>
+
+nnoremap <F5> :UndotreeToggle<cr>
+
 " }}}
 
