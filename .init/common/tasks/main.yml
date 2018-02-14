@@ -24,6 +24,7 @@
     state: link
   with_items:
     - { src: '.config/zsh/.zshenv', dest: '.zshenv' }
+    - { src: '.config/ctags/ctags.conf', dest: '.ctags' }
     - { src: '../.config/ansible/ansible.cfg', dest: '.ansible/ansible.cfg' }
     - { src: '../.config/ansible/pass.yml', dest: '.ansible/pass.yml' }
     - { src: '../.config/gnupg/dirmngr.conf', dest: '.gnupg/dirmngr.conf' }
