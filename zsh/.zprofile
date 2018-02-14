@@ -15,6 +15,8 @@ export GPG_TTY="$(tty)"
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 # }}}
 
 # import the private profile from pass
