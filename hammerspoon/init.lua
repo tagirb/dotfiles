@@ -95,24 +95,30 @@ hs.hotkey.bind(cam, 'Left', f_move_s(1))
 hs.hotkey.bind(cam, 'Right', f_move_s(-1))
 -- }}}
 
--- media keys {{{
-function f_keypress(key)
+-- system keys {{{
+function f_syskey_repeat(syskey)
     return function()
-        hs.eventtap.event.newSystemKeyEvent(key, true):post()
-        hs.timer.usleep(10000)
-        hs.eventtap.event.newSystemKeyEvent(key, false):post()
+        hs.eventtap.event.newSystemKeyEvent(syskey, true):post()
+        hs.eventtap.event.newSystemKeyEvent(syskey, false):post()
     end
+end
+function f_syskey_press(syskey, pressed)
+    return function()
+        hs.eventtap.event.newSystemKeyEvent(syskey, pressed):post()
+    end
+end
+function bindsyskey(mod, key, syskey)
+    hs.hotkey.bind(mod, key, f_syskey_press(syskey, true), f_syskey_press(syskey, false), f_syskey_repeat(syskey))
 end
 
 -- TODO: make f3/f4 arrange windows
---hs.hotkey.bind('', 'f3', )
---hs.hotkey.bind('', 'f4', )
-hs.hotkey.bind('{cmd}', 'f5', f_keypress('BRIGHTNESS_DOWN'))
-hs.hotkey.bind('{cmd}', 'f6', f_keypress('BRIGHTNESS_UP'))
-hs.hotkey.bind('{cmd}', 'f7', f_keypress('PREVIOUS'))
-hs.hotkey.bind('{cmd}', 'f8', f_keypress('PLAY'))
-hs.hotkey.bind('{cmd}', 'f9', f_keypress('NEXT'))
-hs.hotkey.bind('{cmd}', 'f10', f_keypress('MUTE'))
-hs.hotkey.bind('{cmd}', 'f11', f_keypress('SOUND_DOWN'))
-hs.hotkey.bind('{cmd}', 'f12', f_keypress('SOUND_UP'))
+bindsyskey({'cmd'}, 'f5', 'BRIGHTNESS_DOWN')
+bindsyskey({'cmd'}, 'f5', 'BRIGHTNESS_DOWN')
+bindsyskey({'cmd'}, 'f6', 'BRIGHTNESS_UP')
+bindsyskey({'cmd'}, 'f7', 'PREVIOUS')
+bindsyskey({'cmd'}, 'f8', 'PLAY')
+bindsyskey({'cmd'}, 'f9', 'NEXT')
+bindsyskey({'cmd'}, 'f10', 'MUTE')
+bindsyskey({'cmd'}, 'f11', 'SOUND_DOWN')
+bindsyskey({'cmd'}, 'f12', 'SOUND_UP')
 -- }}}
