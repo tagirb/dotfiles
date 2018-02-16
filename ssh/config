@@ -4,3 +4,6 @@ Host 192.168.33.*
  StrictHostKeyChecking no
  UserKnownHostsFile /dev/null
 
+Host 10.1.*
+  IdentityFile ~/.ssh/id_rsa
+  ProxyCommand ssh rxadm@ec2-18-197-14-206.eu-central-1.compute.amazonaws.com -W %h:%p

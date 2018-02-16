@@ -113,6 +113,6 @@ hs.hotkey.bind('{cmd}', 'f7', f_keypress('PREVIOUS'))
 hs.hotkey.bind('{cmd}', 'f8', f_keypress('PLAY'))
 hs.hotkey.bind('{cmd}', 'f9', f_keypress('NEXT'))
 hs.hotkey.bind('{cmd}', 'f10', f_keypress('MUTE'))
-hs.hotkey.bind('{cmd}', 'f11', f_keypress('SOUND_UP'))
-hs.hotkey.bind('{cmd}', 'f12', f_keypress('SOUND_DOWN'))
+hs.hotkey.bind('{cmd}', 'f11', f_keypress('SOUND_DOWN'))
+hs.hotkey.bind('{cmd}', 'f12', f_keypress('SOUND_UP'))
 -- }}}

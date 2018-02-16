@@ -15,7 +15,7 @@ set undolevels=1000         " use more undo levels
 set noerrorbells            " disable bells
 set conceallevel=0          " disable concealing
 
-set mouse=                  " disable mouse
+set mouse=a                 " enable mouse
 
 set updatetime=250          " process buffer changes every 250ms
 
@@ -52,6 +52,23 @@ unlet v_vimplug
 unlet v_vimplug_url
 
 " Plugin settings {{{
+
+" fzf {{{
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+" }}}
 
 " indentLine {{{
 let g:indentLine_enabled = 1
