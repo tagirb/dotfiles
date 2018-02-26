@@ -5,7 +5,7 @@ hs_spaces = require("hs._asm.undocumented.spaces")
 
 -- initialize spaces
 local spaces = hs_spaces.query()
-local space_count = 3
+local space_count = 2
 
 -- create a necessary number of spaces
 if #spaces < space_count then
@@ -15,8 +15,11 @@ if #spaces < space_count then
 end
 spaces = hs_spaces.query()
 
--- TODO: initial app layout
----- launch necessary apps
+-- TODO: initial app layout:
+-- space 1: mail | slack
+-- space 2: chrome
+-- fullscreen iterm
+-- launch necessary apps
 --hs.application.launchOrFocus('iTerm.app')
 --hs.application.launchOrFocus('Chrome.app')
 --hs.application.launchOrFocus('Slack.app')
