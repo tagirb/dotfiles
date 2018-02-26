@@ -8,6 +8,8 @@ set encoding=utf-8
 set fileencoding=utf-8
 
 set clipboard^=unnamed,unnamedplus       " use OS clipboard by default
+set nopaste                 " done by Nvim automatically
+
 
 set history=1000            " remember more commands and search history
 set undolevels=1000         " use more undo levels
@@ -15,7 +17,7 @@ set undolevels=1000         " use more undo levels
 set noerrorbells            " disable bells
 set conceallevel=0          " disable concealing
 
-set mouse=a                 " enable mouse
+set mouse=                  " disable mouse
 
 set updatetime=250          " process buffer changes every 250ms
 
@@ -55,24 +57,26 @@ unlet v_vimplug_url
 
 " fzf {{{
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-" }}}
+          \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
 
-" indentLine {{{
-let g:indentLine_enabled = 1
-let g:indentLine_char = '¦'
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
 " }}}
 
 " netrw {{{
@@ -91,12 +95,23 @@ let g:loaded_netrwPlugin = 0
 let g:gitgutter_enabled = 0
 " }}}
 
+" vim-indent-guides {{{
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+" }}}
+
+" vim-terraform {{{
+let g:terraform_align=1
+let g:terraform_fold_sections=1
+" }}}
 " }}}
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 
 " ui
 Plug 'morhetz/gruvbox'
-Plug 'Yggdroot/indentLine'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " file/buffer management
 Plug '/usr/local/opt/fzf'
@@ -117,6 +132,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " syntax highlighting
+Plug 'elzr/vim-json'
 Plug 'stephpy/vim-yaml'
 Plug 'pearofducks/ansible-vim'
 Plug 'Glench/Vim-Jinja2-Syntax'
@@ -156,8 +172,8 @@ set title                   " change the terminal title
 set titleold=
 set textwidth=80            " limit text width to 80 chars
 set scrolloff=4             " keep this cursor context when scrolling
-set sidescrolloff=4         "
-set fillchars=vert:┊,fold:┈  " window split characters
+set sidescrolloff=4         " 
+set fillchars=fold:─,vert:│ " fold and vsplit characters
 
 set noerrorbells            " disable all bells
 set novisualbell
@@ -294,10 +310,7 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 " }}}
 
 
-" key mappings {{{
-
-" toggle paste mode
-"set pastetoggle=<F2>
+" commands and key mappings {{{
 
 " quickly reload the vimrc with ,sv
 nnoremap <silent> <leader>sv :source $MYVIMRC<cr>
@@ -341,7 +354,7 @@ nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>
 nnoremap <leader>q gqip
 " }}}
 
-" window management {{{
+" windows {{{
 "nnoremap <silent> - :split<cr>
 "nnoremap <silent> _ :vsplit<cr>
 "nnoremap <silent> <C-c> :close<cr>
@@ -350,34 +363,44 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <silent> <C-q> :quit<cr>
-nnoremap <silent> <Left> :vertical resize -5<CR>
-nnoremap <silent> <Right> :vertical resize +5<CR>
-nnoremap <silent> <Up> :resize -5<CR>
-nnoremap <silent> <Down> :resize +5<CR>
+nnoremap <silent> <Left> :vertical resize -5<cr>
+nnoremap <silent> <Right> :vertical resize +5<cr>
+nnoremap <silent> <Up> :resize -5<cr>
+nnoremap <silent> <Down> :resize +5<cr>
 " }}}
 
-" buffer and tab management {{{
-nmap <silent> <M-h> :tabprev<cr>
-nmap <silent> <M-j> :bprev<cr>
-nmap <silent> <M-k> :bnext<cr>
-nmap <silent> <M-l> :tabnext<cr>
+" files, buffers, tabs {{{
+
+" FZF file and buffer list
+nnoremap <M-f> :Files<cr>
+nnoremap <M-b> :Buffers<cr>
+
+nnoremap <silent> <M-h> :tabprev<cr>
+nnoremap <silent> <M-j> :bprev<cr>
+nnoremap <silent> <M-k> :bnext<cr>
+nnoremap <silent> <M-l> :tabnext<cr>
+
+" delete the current buffer without closing the window
+command! Bd bp\|bd \#
 " }}}
 
 " registers
-nmap <silent> <M-r> :registers<cr>
+nnoremap <silent> <M-r> :registers<cr>
+
+nnoremap <M-g> :Rg<space>
+nnoremap <M-t> :Tags<cr>
+nnoremap <M-m> :Marks<cr>
 
 " folding
 nnoremap z0 :set foldlevel=0<cr>
 nnoremap z1 :set foldlevel=1<cr>
 nnoremap z2 :set foldlevel=2<cr>
 
-" plugin-specific
+" Git
 nnoremap <silent> <leader>gg :GitGutterToggle<cr>
 
-nnoremap <M-b> :Buffers<cr>
-nnoremap <M-f> :Files<cr>
-nnoremap <M-t> :Tags<cr>
-nnoremap <M-m> :Marks<cr>
+" Documentation
+nnoremap <M-d> :Dash<cr>
 
 nnoremap <F5> :UndotreeToggle<cr>
 
