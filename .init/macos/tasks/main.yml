@@ -41,21 +41,29 @@
     state: present
     name: "{{ item }}"
   with_items:
+    # Env
     - bash
     - bash-completion
     - curl
     - gawk
-    - git
-    - jq
-    - neovim
-    - pass
-    - pinentry-mac
     - python
     - python3
-    - ripgrep
-    - tmux
+    - rsync
     - watch
     - wget
+    - zsh
+    # Dev
+    - git
+    - jq
+    - jsonlint
+    - neovim
+    - pass
+    - reattach-to-user-namespace
+    - ripgrep
+    - tmux
+    # DevOps
+    - packer
+    - terraform
 
 - name: homebrew GNU packages are installed with default names
   homebrew:
@@ -72,19 +80,19 @@
     state: present
     name: "{{ item }}"
   with_items:
+    # Env
     - dash
-    - docker-edge
     - firefox
     - font-anonymous-pro
     - google-chrome
     - gpg-suite
     - hammerspoon
-    - iterm2
-    - kitematic
-    - scroll-reverser
     - slack
     - tunnelblick
-    - vagrant
+    # Dev / DevOps
+    - docker-edge
+    - iterm2
+    - kitematic
 
 - name: homebrew packages are upgraded
   homebrew:
