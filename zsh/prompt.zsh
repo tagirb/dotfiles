@@ -1,4 +1,7 @@
+# Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
 setopt prompt_subst
+# only show the rprompt on the current prompt
+setopt transient_rprompt
 
 autoload -Uz promptinit
 promptinit
