@@ -53,11 +53,13 @@
     - wget
     - zsh
     # Dev
+    - exa
+    - fd
     - git
+    - gopass
     - jq
     - jsonlint
     - neovim
-    - pass
     - reattach-to-user-namespace
     - ripgrep
     - tmux
