@@ -45,6 +45,9 @@ alias ....='cd ../../..'
 # editors
 alias vim='nvim'
 alias vi='nvim'
+
+# pass
+alias pass='gopass'
 # }}}
 
 # Additional setting files {{{
