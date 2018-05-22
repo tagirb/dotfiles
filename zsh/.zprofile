@@ -14,8 +14,6 @@ export GPG_TTY="$(tty)"
 
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
-export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
-
 export FZF_DEFAULT_COMMAND='fd --type file'
 # }}}
 

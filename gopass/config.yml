@@ -1,24 +1,35 @@
 root:
   askformore: false
-  autoimport: true
+  autoimport: false
   autosync: true
-  cliptimeout: 45
+  cliptimeout: 0
   noconfirm: false
   nopager: false
-  path: /Users/tagir/.password-store
-  safecontent: false
+  path: ~/git/password-store/root
+  safecontent: true
   usesymbols: false
   nocolor: false
 mounts:
   devops:
     askformore: false
-    autoimport: true
+    autoimport: false
     autosync: true
-    cliptimeout: 45
+    cliptimeout: 0
     noconfirm: false
     nopager: false
-    path: /Users/tagir/.password-store-devops
-    safecontent: false
+    path: /Users/tagir/git/password-store/devops
+    safecontent: true
+    usesymbols: false
+    nocolor: false
+  kk:
+    askformore: false
+    autoimport: false
+    autosync: true
+    cliptimeout: 0
+    noconfirm: false
+    nopager: false
+    path: /Users/tagir/git/password-store/kulturklick
+    safecontent: true
     usesymbols: false
     nocolor: false
 version: 1.6.11

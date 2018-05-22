@@ -99,13 +99,22 @@ let g:gitgutter_enabled = 0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
 " }}}
+
+" vim-polyglot {{{
+let g:polyglot_disabled=['markdown']
 
 " vim-terraform {{{
 let g:terraform_align=1
 let g:terraform_fold_sections=1
 " }}}
+
+" vim-json {{{
+let g:vim_json_syntax_conceal = 1
+" }}}
+
+" }}}
+
 " }}}
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 
@@ -132,12 +141,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " syntax highlighting
-Plug 'elzr/vim-json'
-Plug 'stephpy/vim-yaml'
-Plug 'pearofducks/ansible-vim'
-Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'markcornick/vim-terraform'
-Plug 'chr4/nginx.vim'
+Plug 'sheerun/vim-polyglot'
+"Plug 'Glench/Vim-Jinja2-Syntax'
 
 " syntax linting
 Plug 'w0rp/ale'
@@ -395,6 +400,8 @@ nnoremap <M-m> :Marks<cr>
 nnoremap z0 :set foldlevel=0<cr>
 nnoremap z1 :set foldlevel=1<cr>
 nnoremap z2 :set foldlevel=2<cr>
+nnoremap z3 :set foldlevel=3<cr>
+nnoremap z4 :set foldlevel=4<cr>
 
 " Git
 nnoremap <silent> <leader>gg :GitGutterToggle<cr>
