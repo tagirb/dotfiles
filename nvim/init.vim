@@ -102,11 +102,14 @@ let g:indent_guides_start_level = 2
 " }}}
 
 " vim-polyglot {{{
-let g:polyglot_disabled=['markdown']
+let g:polyglot_disabled = [
+            \'markdown',
+            \'terraform'
+            \]
 
 " vim-terraform {{{
-let g:terraform_align=1
-let g:terraform_fold_sections=1
+let g:terraform_align = 1
+let g:terraform_fold_sections = 1
 " }}}
 
 " vim-json {{{
@@ -139,9 +142,11 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'junegunn/vim-easy-align'
 
 " syntax highlighting
 Plug 'sheerun/vim-polyglot'
+Plug 'tagirb/vim-terraform'
 "Plug 'Glench/Vim-Jinja2-Syntax'
 
 " syntax linting
@@ -199,7 +204,7 @@ set showcmd                 " show partial command in the status line
 set cmdheight=1             " command line height
 set laststatus=2            " always show status line
 
-set statusline=%<\ %n»%f\ %M%R%=%-6.(%c%V%)\ %P
+set statusline=%<»%f\ (%{getcwd()})\ %M%R%=%-6.(%c%V%)\ %P
 
 " }}}
 
@@ -331,6 +336,9 @@ cnoremap <M-d> <S-Right><Delete>
 " }}}
 
 " browsing {{{
+" change to the current buffers directory
+nnoremap <silent> <leader>cd :cd %:p:h<CR>:pwd<CR>
+
 " scroll 3 lines at once
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
@@ -355,8 +363,14 @@ nnoremap <silent> <leader>/ :nohlsearch<cr>
 " clean whitespace
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>
 
-" re-hardwrap paragraps
+" re-format paragraph
 nnoremap <leader>q gqip
+
+" start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 " }}}
 
 " windows {{{
@@ -378,12 +392,18 @@ nnoremap <silent> <Down> :resize +5<cr>
 
 " FZF file and buffer list
 nnoremap <M-f> :Files<cr>
+nnoremap <M-F> :Files<space>
 nnoremap <M-b> :Buffers<cr>
 
+" tab browsing
 nnoremap <silent> <M-h> :tabprev<cr>
-nnoremap <silent> <M-j> :bprev<cr>
-nnoremap <silent> <M-k> :bnext<cr>
 nnoremap <silent> <M-l> :tabnext<cr>
+nnoremap <silent> <M-1> 1gt<cr>
+nnoremap <silent> <M-2> 2gt<cr>
+nnoremap <silent> <M-3> 3gt<cr>
+nnoremap <silent> <M-4> 4gt<cr>
+nnoremap <silent> <M-5> 5gt<cr>
+nnoremap <silent> <M-6> 6gt<cr>
 
 " delete the current buffer without closing the window
 command! Bd bp\|bd \#

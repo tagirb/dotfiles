@@ -1,35 +1,44 @@
 root:
   askformore: false
+  autoclip: false
   autoimport: false
   autosync: true
   cliptimeout: 0
+  editrecipients: false
+  nocolor: false
   noconfirm: false
   nopager: false
-  path: ~/git/password-store/root
+  path: gpgcli-gitcli-fs+file:///Users/tagir/git/password-store/root
   safecontent: true
   usesymbols: false
-  nocolor: false
+  notifications: false
 mounts:
   devops:
     askformore: false
+    autoclip: false
     autoimport: false
     autosync: true
     cliptimeout: 0
+    editrecipients: false
+    nocolor: false
     noconfirm: false
     nopager: false
-    path: /Users/tagir/git/password-store/devops
+    path: gpgcli-gitcli-fs+file:///Users/tagir/git/password-store/devops
     safecontent: true
     usesymbols: false
-    nocolor: false
+    notifications: false
   kk:
     askformore: false
+    autoclip: false
     autoimport: false
     autosync: true
     cliptimeout: 0
+    editrecipients: false
+    nocolor: false
     noconfirm: false
     nopager: false
-    path: /Users/tagir/git/password-store/kulturklick
+    path: gpgcli-gitcli-fs+file:///Users/tagir/git/password-store/kulturklick
     safecontent: true
     usesymbols: false
-    nocolor: false
-version: 1.6.11
+    notifications: false
+version: 1.7.1
