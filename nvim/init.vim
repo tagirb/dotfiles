@@ -1,4 +1,4 @@
-" vim: fileformat=unix fileencoding=utf-8
+
 
 " general {{{
 scriptencoding utf-8
@@ -147,6 +147,7 @@ Plug 'junegunn/vim-easy-align'
 " syntax highlighting
 Plug 'sheerun/vim-polyglot'
 Plug 'tagirb/vim-terraform'
+Plug 'saltstack/salt-vim'
 "Plug 'Glench/Vim-Jinja2-Syntax'
 
 " syntax linting
@@ -170,6 +171,10 @@ set hidden                  " hide buffers instead of closing them
 set switchbuf=useopen       " reveal already opened files from the
                             " quickfix window instead of opening new
                             " buffers
+
+" auto lcd to the current buffer
+set noautochdir             " 'autochdir' makes a global 'cd'
+autocmd BufEnter * silent! lcd %:p:h
 
 set fileformat=unix         " file formats
 set fileformats=unix,dos
@@ -311,7 +316,8 @@ set copyindent              " copy the previous indentation on autoindenting
 " folding {{{
 set foldenable              " enable folding
 set foldcolumn=2            " add a fold column
-set foldmethod=marker       " detect triple-{ style fold markers
+set foldmethod=marker       " use foldmarkers as the only folding method
+set foldmarker=\ {{{,\ }}}  " adjust foldmarkers to include a space
 set foldlevelstart=99       " start with everything unfolded
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
                             " which commands trigger auto-unfold
@@ -336,8 +342,6 @@ cnoremap <M-d> <S-Right><Delete>
 " }}}
 
 " browsing {{{
-" change to the current buffers directory
-nnoremap <silent> <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 " scroll 3 lines at once
 nnoremap <C-e> 3<C-e>
@@ -393,6 +397,7 @@ nnoremap <silent> <Down> :resize +5<cr>
 " FZF file and buffer list
 nnoremap <M-f> :Files<cr>
 nnoremap <M-F> :Files<space>
+nnoremap <M-p> :Files ~/git/
 nnoremap <M-b> :Buffers<cr>
 
 " tab browsing

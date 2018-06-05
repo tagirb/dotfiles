@@ -41,4 +41,4 @@ mounts:
     safecontent: true
     usesymbols: false
     notifications: false
-version: 1.7.1
+version: 1.7.2
