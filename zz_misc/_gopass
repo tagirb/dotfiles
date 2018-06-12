@@ -1,0 +1,86 @@
+#!/usr/bin/python
+
+# COMMANDS:
+#      agent               Start gopass-agent
+#      audit               Scan for weak passwords
+#      binary, bin         Assist with Binary/Base64 content
+#...
+
+##compdef cmd
+# local -a subcmds
+# subcmds=('c:description for c command' 'd:description for d command')
+# _describe 'command' subcmds
+
+
+# GLOBAL OPTIONS:
+#    --yes          Assume yes on all yes/no questions or use the default on all others
+#    --clip, -c     Copy the first line of the secret into the clipboard
+#    --help, -h     show help
+#    --version, -v  print the version
+#    --store value, -s value  Select the store to sync
+
+# _arguments -OPT[DESCRIPTION]:MESSAGE:ACTION
+# _arguments '-s[sort output]' '1:first arg:_net_interfaces' '::optional arg:_files' ':next arg:(a b c)'
+
+import subprocess, re, sys
+import pprint
+
+def parse_output(call):
+    output = subprocess.Popen('{} --help'.format(call),
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE,
+                              shell=True)
+    commands = {}
+    options = []
+    in_commands = False
+    in_options = False
+    for line in output.stdout:
+        print("'{}'".format(line))
+
+        # Section handling
+        if re.search(r'^COMMANDS:$', line):
+            in_commands = True
+            continue
+        if re.search(r' OPTIONS:$', line):
+            in_options = True
+            continue
+        if re.search(r'^$', line):
+            if in_commands:
+                in_commands = False
+                continue
+            if in_options:
+                in_options = False
+                continue
+
+        # Parse commands
+        if in_commands:
+            parse_cmd(call, line)
+        # Parse options
+        if in_opts:
+            parse_opts()
+            [optstr, desc] = re.match(r'^  *(\S+(?:, \S+)*)  +(\b.*)$', line).groups()
+            opts = re.split(r', ', optstr)
+            for opt in opts:
+                if ' ' in opt:
+                    [name, value] = re.split(r' ', opt)
+                    options.append([name, desc, value])
+                else:
+                    options.append([opt, desc])
+
+    return [commands, options]
+
+def parse_cmd(call, line):
+    commands = []
+    options = []
+
+    [cmdstr, desc] = re.match(r'^  *(\S+(?:, \S+)*)  +(\b.*)$', line).groups()
+    cmds = re.split(r', ', cmdstr)
+    for cmd in cmds:
+        commands.append([cmd, desc])
+        # parse and append subcommands and subopts
+        [subcmds, subopts] = parse_output('{} {}'.format(call))
+        commands.merge(subcmds)
+        options.merge(subopts)
+    return [commands, options]
+
+pprint.pprint(parse_output("gopass"))

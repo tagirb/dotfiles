@@ -3,42 +3,51 @@ root:
   autoclip: false
   autoimport: false
   autosync: true
+  check_recipient_hash: false
   cliptimeout: 0
+  concurrency: 1
   editrecipients: false
   nocolor: false
   noconfirm: false
   nopager: false
+  notifications: false
   path: gpgcli-gitcli-fs+file:///Users/tagir/git/password-store/root
+  recipient_hash: {}
   safecontent: true
   usesymbols: false
-  notifications: false
 mounts:
   devops:
     askformore: false
     autoclip: false
     autoimport: false
     autosync: true
+    check_recipient_hash: false
     cliptimeout: 0
+    concurrency: 1
     editrecipients: false
     nocolor: false
     noconfirm: false
     nopager: false
+    notifications: false
     path: gpgcli-gitcli-fs+file:///Users/tagir/git/password-store/devops
+    recipient_hash: {}
     safecontent: true
     usesymbols: false
-    notifications: false
   kk:
     askformore: false
     autoclip: false
     autoimport: false
     autosync: true
+    check_recipient_hash: false
     cliptimeout: 0
+    concurrency: 1
     editrecipients: false
     nocolor: false
     noconfirm: false
     nopager: false
+    notifications: false
     path: gpgcli-gitcli-fs+file:///Users/tagir/git/password-store/kulturklick
+    recipient_hash: {}
     safecontent: true
     usesymbols: false
-    notifications: false
-version: 1.7.2
+version: 1.8.1
