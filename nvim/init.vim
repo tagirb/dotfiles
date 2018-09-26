@@ -143,10 +143,11 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/vim-easy-align'
+Plug 'chrisbra/vim-diff-enhanced'
 
 " syntax highlighting
 Plug 'sheerun/vim-polyglot'
-Plug 'tagirb/vim-terraform'
+Plug 'hashivim/vim-terraform'
 Plug 'saltstack/salt-vim'
 "Plug 'Glench/Vim-Jinja2-Syntax'
 
@@ -297,6 +298,7 @@ set smartcase               " ignore case if search pattern is lowercase,
                             " otherwise be case-sensitive
 set hlsearch                " highlight searches
 set incsearch               " search during typing
+set inccommand=nosplit      " interactive substitute command
 set gdefault                " replace globally by default, /g to disable
 
 " use ripgrep instead of grep when available
@@ -328,8 +330,9 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " commands and key mappings {{{
 
-" quickly reload the vimrc with ,sv
+" vimrc management
 nnoremap <silent> <leader>sv :source $MYVIMRC<cr>
+nnoremap <silent> <leader>se :tabe $MYVIMRC<cr>
 
 " cmdline mappings {{{
 cnoremap <C-a> <Home>
@@ -397,8 +400,8 @@ nnoremap <silent> <Down> :resize +5<cr>
 " FZF file and buffer list
 nnoremap <M-f> :Files<cr>
 nnoremap <M-F> :Files<space>
-nnoremap <M-p> :Files ~/git/
 nnoremap <M-b> :Buffers<cr>
+nnoremap <M-:> :History:<cr>
 
 " tab browsing
 nnoremap <silent> <M-h> :tabprev<cr>

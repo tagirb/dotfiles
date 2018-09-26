@@ -15,7 +15,9 @@ export GPG_TTY="$(tty)"
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
 export FZF_DEFAULT_COMMAND='fd --type file'
-export FZF_DEFAULT_OPTS='--bind=ctrl-f:page-down,ctrl-b:page-up'
+export FZF_DEFAULT_OPTS=" \
+    --bind=ctrl-f:page-down,ctrl-b:page-up \
+    --history=$XDG_CACHE_HOME/.fzf_history"
 # }}}
 
 # import the private profile from pass

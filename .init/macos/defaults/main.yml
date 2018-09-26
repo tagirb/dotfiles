@@ -5,6 +5,7 @@ macos_defaults:
 
     # Fonts
     - AppleFontSmoothing: { int: 2 }
+    - CGFontRenderingFontSmoothingDisabled: { bool: false }
 
     # Keyboard
     - InitialKeyRepeat: { int: 20 }
