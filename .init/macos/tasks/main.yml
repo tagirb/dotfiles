@@ -28,13 +28,13 @@
     name: cask
     state: latest
 
-- name: additional homebrew repos is installed
+- name: additional homebrew repos are installed
   homebrew_tap:
     name: "{{ item }}"
     state: present
   with_items:
-    - caskroom/versions
-    - caskroom/fonts
+    - homebrew/cask-versions
+    - homebrew/cask-fonts
 
 - name: homebrew packages are installed
   homebrew:
@@ -44,8 +44,14 @@
     # Env
     - bash
     - bash-completion
+    - coreutils
     - curl
+    - exa
+    - fd
     - gawk
+    - gnu-sed
+    - gnu-tar
+    - gnupg
     - python
     - python3
     - rsync
@@ -53,8 +59,6 @@
     - wget
     - zsh
     # Dev
-    - exa
-    - fd
     - git
     - gopass
     - jq
@@ -64,6 +68,10 @@
     - ripgrep
     - tmux
     # DevOps
+    - ansible
+    - awscli
+    - mtr
+    - nmap
     - packer
     - terraform
 
@@ -86,7 +94,6 @@
     - dash
     - firefox
     - font-anonymous-pro
-    - google-chrome
     - gpg-suite
     - hammerspoon
     - slack
