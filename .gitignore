@@ -1,9 +1,26 @@
 *.pyc
 
-nvim/viminfo
-nvim/*.tmp
-nvim/.netrwhist
-nvim/autoload/plug.vim.old
-nvim/plugged/
+/Code - OSS
+/Kvantum
+/Slack
+/devdocs-desktop
+/Electron
+/enchant
+/evolution
+/falkon
+/gedit
+/gnome-session
+/libaccounts-glib
+/manjaro*
+/mutter
+/nautilus
+/pulse
+
+
+/nvim/viminfo
+/nvim/*.tmp
+/nvim/.netrwhist
+/nvim/autoload/plug.vim.old
+/nvim/plugged/
 
 .init/127.0.0.1
