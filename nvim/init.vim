@@ -1,5 +1,3 @@
-
-
 " general {{{
 scriptencoding utf-8
 set nocompatible            " no vi compatibility
@@ -29,7 +27,7 @@ set timeoutlen=500          " set mapleader timeout to 500ms
 
 " paths {{{
 set backupdir=$XDG_CACHE_HOME/nvim/backup
-set runtimepath=$XDG_CONFIG_HOME/nvim,$VIMRUNTIME
+set runtimepath=$XDG_CONFIG_HOME/nvim,$VIMRUNTIME,/usr/share/vim/vimfiles
 set undodir=$XDG_CACHE_HOME/nvim/.undo
 set viminfo='20,\"80,<50,s10,h,f0,n"$XDG_CACHE_HOME/nvim/viminfo"
 " }}}
@@ -126,7 +124,7 @@ Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
 
 " file/buffer management
-Plug '/usr/local/opt/fzf'
+Plug '/usr/share/vim/vimfiles/plugins'
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-eunuch'

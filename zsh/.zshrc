@@ -48,6 +48,9 @@ alias vi='nvim'
 
 # pass
 alias pass='gopass'
+
+# terraform
+alias tf='terraform'
 # }}}
 
 # Additional setting files {{{

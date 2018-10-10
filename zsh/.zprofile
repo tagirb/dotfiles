@@ -20,12 +20,12 @@ export FZF_DEFAULT_OPTS=" \
     --history=$XDG_CACHE_HOME/.fzf_history"
 # }}}
 
-# import the private profile from pass
-if pass version >/dev/null 2>&1 \
-   && [[ -f .password-store/dotfiles/zprofile ]]; then
-    eval $(pass show dotfiles/zprofile)
-fi
-# }}}
+## import the private profile from pass {{{
+#if gopass version >/dev/null 2>&1 \
+#   && [[ -f .password-store/dotfiles/zprofile ]]; then
+#    eval $(gopass show -f dotfiles/zprofile)
+#fi
+## }}}
 
 # source OS-specific definitions
 if [[ -f $ZDOTDIR/.zprofile.$(uname -s) ]]; then
