@@ -57,6 +57,5 @@ alias tf='terraform'
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/prompt.zsh
 source $ZDOTDIR/history.zsh
-source $ZDOTDIR/colors.zsh
 # }}}
 
