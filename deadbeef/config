@@ -3,6 +3,8 @@ cli_add_playlist_name Default
 cli_add_to_specific_playlist 1
 close_send_to_tray 1
 deadbeef_version 0.7.2
+filechooser.lastdir file:///home/tagir/Downloads
+gtkui.columns.playlist [{"title":"♫","id":"1","format":"%playstatus%","size":"50","align":"0","color_override":"0","color":"#ff000000"},{"title":"Artist / Album","id":"-1","format":"%artist% - %album%","size":"150","align":"0","color_override":"0","color":"#ff000000"},{"title":"Track No","id":"-1","format":"%tracknumber%","size":"50","align":"1","color_override":"0","color":"#ff000000"},{"title":"Title","id":"-1","format":"%title%","size":"150","align":"0","color_override":"0","color":"#ff000000"},{"title":"Duration","id":"-1","format":"%length%","size":"50","align":"0","color_override":"0","color":"#ff000000"}]
 gtkui.hide_tray_icon 0
 gtkui.layout.0.6.2 vbox expand="0 1" fill="1 1" homogeneous=0 {hbox expand="0 1 0" fill="1 1 1" homogeneous=0 {playtb {} seekbar {} volumebar {} } tabbed_playlist hideheaders=0 width=655 {} } 
 gtkui.mmb_delete_playlist 1
@@ -44,15 +46,15 @@ hotkey.key31 n 0 0 playback_random
 hotkey.key32 "Ctrl k" 0 0 toggle_stop_after_album
 hotkeys_created 1
 ignore_archives 1
-junk.enable_cp1251_detection 0
+junk.enable_cp1251_detection 1
 logwindow.geometry.h 200
 logwindow.geometry.w 400
 logwindow.geometry.x 40
 logwindow.geometry.y 40
-mainwin.geometry.h 300
-mainwin.geometry.w 655
-mainwin.geometry.x 0
-mainwin.geometry.y 30
+mainwin.geometry.h 321
+mainwin.geometry.w 799
+mainwin.geometry.x 125
+mainwin.geometry.y 178
 network.http_user_agent deadbeef
 network.proxy.port 8080
 network.proxy.type HTTP
@@ -72,7 +74,7 @@ playlist.scroll.cursorfollowplayback 1
 playlist.tab.00000 Default
 prefwin.geometry.h 624
 prefwin.geometry.w 702
-prefwin.geometry.x 0
+prefwin.geometry.x 173
 prefwin.geometry.y 30
 replaygain_mode 0
 replaygain_scale 1
@@ -84,3 +86,7 @@ streamer.8_to_16 1
 streamer.samplerate 44100
 streamer.samplerate_mult_44 44100
 streamer.samplerate_mult_48 48000
+trkproperties.geometry.h 400
+trkproperties.geometry.w 400
+trkproperties.geometry.x 104
+trkproperties.geometry.y 468

@@ -16,14 +16,14 @@ setopt list_ambiguous
 # do not autoselect the first completion entry
 unsetopt menu_complete
 
-# additional completions
+# local completions
 fpath=( "$XDG_CONFIG_HOME/zsh/completion" $fpath )
 
 zmodload zsh/complist
 autoload -Uz compinit
 compinit -d "$XDG_DATA_HOME/zsh/zcompdump"
 
-# {{{ completion settings as per zshcompsys(1)
+# completion settings as per zshcompsys(1)
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$XDG_DATA_HOME/zsh/completion"
 
@@ -41,3 +41,6 @@ zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 zstyle ':completion::complete:docker:*' option-stacking yes
 zstyle ':completion::complete:docker-*:*' option-stacking yes
 
+# additional completions
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
