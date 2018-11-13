@@ -37,10 +37,10 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
-# Docker
-zstyle ':completion::complete:docker:*' option-stacking yes
-zstyle ':completion::complete:docker-*:*' option-stacking yes
-
 # additional completions
+compdef tf=terraform
+
+# FZF
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
+source "$XDG_CONFIG_HOME/zsh/completion/fzf.zsh"

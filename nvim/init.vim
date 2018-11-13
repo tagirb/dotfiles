@@ -154,7 +154,7 @@ Plug 'saltstack/salt-vim'
 Plug 'w0rp/ale'
 
 " documentation
-Plug 'rizzatti/dash.vim'
+Plug 'romainl/vim-devdocs'
 
 call plug#end()
 " }}}
@@ -213,7 +213,7 @@ set statusline=%<»%f\ (%{getcwd()})\ %M%R%=%-6.(%c%V%)\ %P
 
 " }}}
 
-set colorcolumn=+1,+2,+3    " color columns at the end of line
+set colorcolumn=+1,+2,+3,+4 " color columns at the end of line
 set nolazyredraw            " force screen redraw on macros execution, etc.
 
 
@@ -380,8 +380,6 @@ nmap ga <Plug>(EasyAlign)
 " }}}
 
 " windows {{{
-"nnoremap <silent> - :split<cr>
-"nnoremap <silent> _ :vsplit<cr>
 "nnoremap <silent> <C-c> :close<cr>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
