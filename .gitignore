@@ -1,13 +1,4 @@
-# ignore all files and directories
+# ignore everything, but explicitly checked in files
 .*
 *
 **
-#*.pyc
-
-#/nvim/viminfo
-#/nvim/*.tmp
-#/nvim/.netrwhist
-#/nvim/autoload/plug.vim.old
-#/nvim/plugged/
-
-#.init/127.0.0.1
