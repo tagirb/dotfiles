@@ -1,4 +1,0 @@
----
-root: ~/.password-store
-devops:
-  root: ~/.password-store-devops
