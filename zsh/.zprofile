@@ -18,6 +18,12 @@ export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_OPTS=" \
     --bind=ctrl-f:page-down,ctrl-b:page-up \
     --history=$XDG_CACHE_HOME/.fzf_history"
+
+# Additional paths
+path+=(
+    '~/go/bin'
+    "$(gem env gempath | cut -d: -f1)/bin"
+    )
 # }}}
 
 ## import the private profile from pass {{{
