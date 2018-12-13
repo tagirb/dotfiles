@@ -33,7 +33,7 @@ zle_highlight=(default:bold region:standout isearch:underline)
 
 # Aliases {{{
 # files and directories
-alias la='exa -la'
+alias la='exa -laF'
 alias ld='exa -ldF'
 alias ll='exa -lF'
 alias ls='exa -F'

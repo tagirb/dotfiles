@@ -33,7 +33,7 @@ mounts:
     recipient_hash: {}
     safecontent: true
     usesymbols: false
-  kk:
+  kulturklick:
     askformore: false
     autoclip: false
     autoimport: false
@@ -67,21 +67,3 @@ mounts:
     recipient_hash: {}
     safecontent: true
     usesymbols: false
-  api:
-    askformore: false
-    autoclip: false
-    autoimport: false
-    autosync: true
-    check_recipient_hash: false
-    cliptimeout: 0
-    concurrency: 1
-    editrecipients: false
-    nocolor: false
-    noconfirm: false
-    nopager: false
-    notifications: false
-    path: gpgcli-gitcli-fs+file:///home/tagir/git/api/passwordstore
-    recipient_hash: {}
-    safecontent: true
-    usesymbols: false
-version: 1.8.1

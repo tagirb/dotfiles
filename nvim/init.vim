@@ -1,41 +1,14 @@
 " general {{{
-scriptencoding utf-8
-set nocompatible            " no vi compatibility
-set termencoding=utf-8      " set all encodings to utf-8
-set encoding=utf-8
-set fileencoding=utf-8
-
-set clipboard^=unnamed,unnamedplus       " use OS clipboard by default
-set nopaste                 " done by Nvim automatically
-
-
-set history=1000            " remember more commands and search history
-set undolevels=1000         " use more undo levels
-
-set noerrorbells            " disable bells
-set conceallevel=0          " disable concealing
-
-set mouse=                  " disable mouse
-
-set updatetime=250          " process buffer changes every 250ms
-
-let mapleader=' '           " change mapleader to space
+set clipboard^=unnamed,unnamedplus " use OS clipboard by default
+let mapleader=' '                  " change mapleader to space
 let g:mapleader=' '
-set timeoutlen=500          " set mapleader timeout to 500ms
-
-" }}}
-
-" paths {{{
-set backupdir=$XDG_CACHE_HOME/nvim/backup
-set runtimepath=$XDG_CONFIG_HOME/nvim,$VIMRUNTIME,/usr/share/vim/vimfiles
-set undodir=$XDG_CACHE_HOME/nvim/.undo
-set viminfo='20,\"80,<50,s10,h,f0,n"$XDG_CACHE_HOME/nvim/viminfo"
 " }}}
 
 " plugin management {{{
 
 " disable unused standard plugins
 let g:loaded_gzip = 0
+let g:loaded_netrwPlugin = 0
 let g:loaded_rrhelper = 0
 let g:loaded_tarPlugin = 0
 let g:loaded_tutor_mode_plugin = 0
@@ -75,18 +48,6 @@ command! -bang -nargs=* Rg
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)
-" }}}
-
-" netrw {{{
-let g:loaded_netrwPlugin = 0
-"let g:netrw_altv=1          " open files on right
-"let g:netrw_banner=0        " no banner
-"let g:netrw_browse_split=0  " open files in the current window
-"let g:netrw_home=$XDG_CACHE_HOME.'/nvim'
-"let g:netrw_liststyle=3     " tree style
-"let g:netrw_preview=1       " open previews vertically
-"let g:netrw_winsize=25      " set window width to 25%
-"let s:treedepthstring= '¦ '
 " }}}
 
 " vim-gitgutter {{{
@@ -160,49 +121,31 @@ call plug#end()
 " }}}
 
 " files and buffers {{{
-set nobackup                " do a backup only when
-set writebackup             " a file is being written
-set noswapfile              " disable swap files
-set directory=/tmp          " swap file directory if they are ever enabled
 set undofile                " keep a persistent undo file
-set autoread                " automatically re-read files changed externally
-set noautowrite             " do not save files on buffer switch
 set hidden                  " hide buffers instead of closing them
 set switchbuf=useopen       " reveal already opened files from the
                             " quickfix window instead of opening new
                             " buffers
 
 " auto lcd to the current buffer
-set noautochdir             " 'autochdir' makes a global 'cd'
 autocmd BufEnter * silent! lcd %:p:h
-
-set fileformat=unix         " file formats
-set fileformats=unix,dos
-set fileencodings=utf-8,latin1
 " }}}
 
 
 " ui {{{
-set title                   " change the terminal title
-set titleold=
 set textwidth=80            " limit text width to 80 chars
 set scrolloff=4             " keep this cursor context when scrolling
 set sidescrolloff=4         " 
-set fillchars=fold:─,vert:│ " fold and vsplit characters
-
-set noerrorbells            " disable all bells
-set novisualbell
-
-"set cursorline              " highlight the current line
+set cursorline              " highlight the current line
 
 " set cursor shape
-if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
+" if exists('$TMUX')
+"   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"   let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" else
+"   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+" endif
 
 " status line {{{
 set showcmd                 " show partial command in the status line
@@ -239,66 +182,31 @@ endfunc
 " }}}
 
 " color scheme
-set background=dark         " currently favorite background
-" enable a 256 color scheme when appropriate
-if &t_Co > 255 || has("gui_running")
-    set termguicolors
-    colorscheme gruvbox
-endif
-
-" enable syntax highlighting if the terminal has colors
-if &t_Co > 2 || has("gui_running")
-    syntax on
-endif
-set synmaxcol=200           " no syntax highlighting on long lines
-
-" menu {{{
-
-" abbreviate messages
-set shortmess=astI
-
-set wildmenu
-set wildmode=longest:full
-set wildcharm=<C-Z>
-" }}}
-
-" }}}
+set termguicolors
+colorscheme gruvbox
+set background=light
 
 " editing behavour {{{
-set showmode                " always show current editing mode
-set wrap                    " wrap lines by default
 set linebreak               " wrap lines at whitespace (see breakat)
-set showbreak=              " no prepend on wrapped lines
 
 " tabs and whitespace
 set expandtab               " expand tabs by default
-set smarttab                " use auto indent for tabs at line start
 set tabstop=4               " a tab is four spaces
 set softtabstop=4           " remove four spaces at once as if it were a tab
 set shiftwidth=4            " number of spaces for autoindenting
 set shiftround              " round to shiftwidth for indenting with > and <
 
-set backspace=eol,start,indent " backspace over everything in insert mode
-
-set nolist                  " don't show invisible characters by default
 set listchars=tab:»·,trail:·,extends:›,eol:¬ " symbols for tabs, empty trails
                                              " and too long lines
 
 set showmatch               " when inserting a bracket show a matching one
 set matchtime=2             " show a matching bracket for <n> msec
 
-set formatoptions=qrn1      " insert comment leader, etc.
-
-set nrformats=              " <C-a> and <C-x> only in-/decrement decimals
-
 " search {{{
 set ignorecase              " ignore case when searching
 set smartcase               " ignore case if search pattern is lowercase,
                             " otherwise be case-sensitive
-set hlsearch                " highlight searches
-set incsearch               " search during typing
 set inccommand=nosplit      " interactive substitute command
-set gdefault                " replace globally by default, /g to disable
 
 " use ripgrep instead of grep when available
 if executable('rg')
@@ -308,20 +216,10 @@ endif
 
 " }}}
 
-" indentation and formatting {{{
-
-set autoindent              " always set autoindenting on
-set copyindent              " copy the previous indentation on autoindenting
-" }}}
-
 " folding {{{
-set foldenable              " enable folding
 set foldcolumn=2            " add a fold column
 set foldmethod=marker       " use foldmarkers as the only folding method
 set foldmarker=\ {{{,\ }}}  " adjust foldmarkers to include a space
-set foldlevelstart=99       " start with everything unfolded
-set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
-                            " which commands trigger auto-unfold
 " }}}
 
 " }}}
