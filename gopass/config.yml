@@ -16,6 +16,23 @@ root:
   safecontent: true
   usesymbols: false
 mounts:
+  a:
+    askformore: false
+    autoclip: false
+    autoimport: false
+    autosync: true
+    check_recipient_hash: false
+    cliptimeout: 0
+    concurrency: 1
+    editrecipients: false
+    nocolor: false
+    noconfirm: false
+    nopager: false
+    notifications: false
+    path: gpgcli-gitcli-fs+file:///home/tagir/a/password-store
+    recipient_hash: {}
+    safecontent: true
+    usesymbols: false
   devops:
     askformore: false
     autoclip: false
