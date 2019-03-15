@@ -63,7 +63,8 @@ let g:indent_guides_start_level = 2
 " vim-polyglot {{{
 let g:polyglot_disabled = [
             \'markdown',
-            \'terraform'
+            \'terraform',
+            \'org'
             \]
 
 " vim-terraform {{{
@@ -127,8 +128,8 @@ set switchbuf=useopen       " reveal already opened files from the
                             " quickfix window instead of opening new
                             " buffers
 
-" auto lcd to the current buffer
-autocmd BufEnter * silent! lcd %:p:h
+" " auto lcd to the current buffer
+" autocmd BufEnter * silent! lcd %:p:h
 " }}}
 
 

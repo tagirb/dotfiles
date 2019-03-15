@@ -1,0 +1,9 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = linux*
+[Action]
+Description = Update Bootloader Entries
+When = PostTransaction
+Exec = /usr/local/sbin/linux-post-hook.sh
