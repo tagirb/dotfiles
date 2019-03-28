@@ -79,6 +79,17 @@ let g:vim_json_syntax_conceal = 1
 
 " }}}
 
+" vim-SyntaxRange {{{
+function! SyntaxRange_ansible_template()
+    call SyntaxRange#Include('{%', '%}', 'jinja2')
+    call SyntaxRange#Include('{{', '}}', 'jinja2')
+endfunction
+
+augroup SyntaxRange
+    autocmd! Syntax */templates/* call SyntaxRange_ansible_template()
+augroup END
+" }}}
+
 " }}}
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 
@@ -110,6 +121,7 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'sheerun/vim-polyglot'
 Plug 'hashivim/vim-terraform'
 Plug 'saltstack/salt-vim'
+Plug 'inkarkat/vim-SyntaxRange'
 "Plug 'Glench/Vim-Jinja2-Syntax'
 
 " syntax linting
