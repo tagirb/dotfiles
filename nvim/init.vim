@@ -27,6 +27,9 @@ unlet v_vimplug_url
 " Plugin settings {{{
 
 " fzf {{{
+" jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
 let g:fzf_colors =
           \ { 'fg':      ['fg', 'Normal'],
             \ 'bg':      ['bg', 'Normal'],
@@ -41,13 +44,7 @@ let g:fzf_colors =
             \ 'marker':  ['fg', 'Keyword'],
             \ 'spinner': ['fg', 'Label'],
             \ 'header':  ['fg', 'Comment'] }
-
-command! -bang -nargs=* Rg
-            \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-            \   <bang>0 ? fzf#vim#with_preview('up:60%')
-            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-            \   <bang>0)
+ 
 " }}}
 
 " vim-gitgutter {{{
@@ -306,10 +303,16 @@ nnoremap <silent> <Down> :resize +5<cr>
 " files, buffers, tabs {{{
 
 " FZF file and buffer list
-nnoremap <M-f> :Files<cr>
-nnoremap <M-F> :Files<space>
+nnoremap <expr> <M-f> system('git rev-parse') ? ':Files<cr>' : ':GFiles<cr>'
 nnoremap <M-b> :Buffers<cr>
 nnoremap <M-:> :History:<cr>
+nnoremap <M-p> :call fzf#run({'source': '~/.config/nvim/gpf ~/git', 'sink': function('Open_Project')})<cr>
+
+function! Open_Project(project)
+    let dir = '~/git/' . a:project
+    execute 'tabedit' dir
+    execute 'tcd' dir
+endfunc
 
 " tab browsing
 nnoremap <silent> <M-h> :tabprev<cr>
@@ -341,9 +344,6 @@ nnoremap z4 :set foldlevel=4<cr>
 
 " Git
 nnoremap <silent> <leader>gg :GitGutterToggle<cr>
-
-" Documentation
-nnoremap <M-d> :Dash<cr>
 
 nnoremap <F5> :UndotreeToggle<cr>
 
