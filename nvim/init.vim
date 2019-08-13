@@ -113,6 +113,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/vim-easy-align'
 Plug 'chrisbra/vim-diff-enhanced'
+Plug 'airblade/vim-matchquote'
 
 " syntax highlighting
 Plug 'sheerun/vim-polyglot'
@@ -127,18 +128,25 @@ Plug 'w0rp/ale'
 " documentation
 Plug 'romainl/vim-devdocs'
 
+" additional tools
+Plug 'diepm/vim-rest-console'
+
 call plug#end()
 " }}}
 
 " files and buffers {{{
+set autoread                " auto read buffer on external change
+set autowriteall            " auto write buffer on every buffer switch
 set undofile                " keep a persistent undo file
-set hidden                  " hide buffers instead of closing them
 set switchbuf=useopen       " reveal already opened files from the
                             " quickfix window instead of opening new
                             " buffers
 
 " " auto lcd to the current buffer
 " autocmd BufEnter * silent! lcd %:p:h
+" auto save buffer on losing focus
+" autocmd FocusLost * :wa
+
 " }}}
 
 
@@ -220,10 +228,9 @@ set inccommand=nosplit      " interactive substitute command
 
 " use ripgrep instead of grep when available
 if executable('rg')
-    set grepprg=rg\ --vimgrep
-    set grepformat=%f:%l:%c%m
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
-
 " }}}
 
 " folding {{{
@@ -304,6 +311,7 @@ nnoremap <silent> <Down> :resize +5<cr>
 
 " FZF file and buffer list
 nnoremap <expr> <M-f> system('git rev-parse') ? ':Files<cr>' : ':GFiles<cr>'
+nnoremap <M-F> :Files<cr>
 nnoremap <M-b> :Buffers<cr>
 nnoremap <M-:> :History:<cr>
 nnoremap <M-p> :call fzf#run({'source': '~/.config/nvim/gpf ~/git', 'sink': function('Open_Project')})<cr>

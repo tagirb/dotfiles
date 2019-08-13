@@ -42,3 +42,5 @@
 	email = tagir.bakirov@reservix.de
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[mergetool "nvim"]
+  cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
