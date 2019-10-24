@@ -21,6 +21,8 @@ fpath=( "$XDG_CONFIG_HOME/zsh/completion" $fpath )
 
 zmodload zsh/complist
 autoload -Uz compinit
+autoload -Uz bashcompinit
+bashcompinit
 compinit -d "$XDG_DATA_HOME/zsh/zcompdump"
 
 # completion settings as per zshcompsys(1)
@@ -38,9 +40,16 @@ zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-d
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
 # additional completions
+complete -C /usr/bin/vault vault
+complete -C /usr/bin/terraform terraform
+
 compdef tf=terraform
 
-# FZF
+# fzf
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 source "$XDG_CONFIG_HOME/zsh/completion/fzf.zsh"
+
+# custom
+source ~/git/shell/_ec2_hostname_selector
+

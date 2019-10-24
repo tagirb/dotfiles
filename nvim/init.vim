@@ -91,7 +91,7 @@ augroup END
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 
 " ui
-Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
 Plug 'nathanaelkane/vim-indent-guides'
 
 " file/buffer management
@@ -201,8 +201,8 @@ endfunc
 
 " color scheme
 set termguicolors
-colorscheme gruvbox
-set background=light
+colorscheme base16-tomorrow-night
+set background=dark
 
 " editing behavour {{{
 set linebreak               " wrap lines at whitespace (see breakat)

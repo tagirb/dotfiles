@@ -22,7 +22,7 @@
     magit
     ;; Project Management
     projectile
-    
+
     ;; DevOps
     ansible
     ))
@@ -42,14 +42,16 @@
 ;; disable backup and lock files
 (setq make-backup-files nil)
 (setq create-lockfiles nil)
-;; auto save directly into the visited file
-(auto-save-visited-mode)
 
+;; replace 'yes/no' with 'y/n'
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; custom file
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
 ;; Theme
-(load-theme 'sanityinc-tomorrow-eighties)
+(load-theme 'sanityinc-tomorrow-night)
 (require 'sanityinc-tomorrow-eighties-theme)
 (set-face-attribute 'default nil
 		    :font "Fantasque Sans Mono-13")
@@ -57,6 +59,7 @@
 (setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(setq column-number-mode 't)
 
 (setq next-screen-context-lines 5)
 
@@ -79,6 +82,7 @@
 (require 'evil)
 (evil-mode 1)
 (setq evil-disable-insert-state-bindings 't)
+(setq-default evil-want-Y-yank-to-eol 't)
 (setq-default display-line-numbers 'relative)
 (setq-default evil-default-state 'emacs)
 (setq evil-insert-state-modes '())
@@ -88,12 +92,18 @@
 		conf-mode
 		emacs-lisp-mode
 		dockerfile-mode
+		json-mode
+		markdown-mode
+		nginx-mode
+		python-mode
+		shell-script-mode
 		terraform-mode))
 
 ;;; Eyebrowse
 (require 'eyebrowse)
 (eyebrowse-mode t)
 (eyebrowse-setup-opinionated-keys)
+(setq eyebrowse-new-workspace 't)
 
 ;; binding to enable/disable evil explicitly
 (global-set-key (kbd "H-v") 'evil-mode)
@@ -103,17 +113,22 @@
 (define-key evil-motion-state-map (kbd "C-e") (lambda () (interactive) (evil-scroll-line-down 4)))
 (define-key evil-motion-state-map (kbd "C-y") (lambda () (interactive) (evil-scroll-line-up 4)))
 
+;; open dired with "-" in normal mode
+(define-key evil-normal-state-map (kbd "-") 'dired-jump)
+;; open parent directory with "-" in dired-mode
+;; TODO: use find-alternate-file ".." instead
+(eval-after-load "dired"
+  '(progn
+     (define-key dired-mode-map (kbd "-") '(lambda() (find-alternate-file "..")))))
+
 ;; Tramp
 (setq tramp-default-method "ssh")
-
-(defun ansible-detect ()
-  )
 
 ;; Magit
 (global-set-key (kbd "s-g") 'magit-status)
 (setq magit-prefer-remote-upstream 't)
 
-;; Projectile 
+;; Projectile
 (projectile-global-mode)
 ;(diminish 'projectile-mode)
 
@@ -134,13 +149,26 @@
 	))
 (setq-default elfeed-search-filter "@1-week-ago +unread")
 
+;; JSON
+(setq js-indent-level 2)
+
 ;; Ansible
 (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
 
 ;; Terraform
-(add-hook 'terraform-mode-hook 
-	  (lambda () (add-hook 'before-save-hook 'terraform-format-buffer nil 'local)))
 
+;; auto-formatting
+(defun terraform-format-buffer ()
+  "Rewrite current buffer in a canonical format using terraform fmt."
+  (interactive)
+  (let ((point (point)))
+    (shell-command-on-region (point-min) (point-max) "terraform fmt -" 't 't)
+    (deactivate-mark)
+    (goto-char point)))
+
+(if (boundp 'terraform-mode)
+    (add-hook 'before-save-hook #'terraform-format-buffer nil t)
+    (remove-hook 'before-save-hook #'terraform-format-buffer t))
 
 (define-compilation-mode terraform-validate-compilation-mode "terraform-validate-compilation-mode"
   "Compilation mode for `terraform validate'"
@@ -197,6 +225,11 @@
 	   (default-directory (projectile-project-root)))
       (compile command 'terraform-compilation-mode))))
 
+;;;; Diverse configs
+;;; Editing
+(setq require-final-newline 't)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;;;; Diverse bindings
 ;;; Common operations
 ;; Buffer management
@@ -217,4 +250,3 @@
 ;; Minor modes
 (global-set-key (kbd "H-w") 'whitespace-mode)
 (global-set-key (kbd "H-r") 're-builder)
-

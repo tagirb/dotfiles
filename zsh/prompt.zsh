@@ -14,10 +14,10 @@ export RPROMPT='$(RPROMPT)'
 PROMPT() {
     path=$(git rev-parse --show-prefix 2>/dev/null)
     if (( $? )); then
-        echo '%B%F{1}%(?..[%?])%f%F{4}%~%f%F{8}$%f%b '
+        echo '%B%F{1}%(?..[%?])%f%F{4}%~%f%F{243}$%f%b '
     else
         # show relative path in a Git repo
-        echo "%B%F{1}%(?..[%?])%F{3}⑃%F{4}/${path%/}%f%F{8}$%f%b "
+        echo "%B%F{1}%(?..[%?])%F{3}⑃%F{4}/${path%/}%f%F{243}$%f%b "
     fi
 }
 RPROMPT() {

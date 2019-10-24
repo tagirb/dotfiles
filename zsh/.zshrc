@@ -51,6 +51,7 @@ alias pass='gopass'
 
 # terraform
 alias tf='terraform'
+alias tf11='terraform0.11'
 # }}}
 
 # Additional setting files {{{

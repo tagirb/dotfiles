@@ -19,6 +19,10 @@ export FZF_DEFAULT_OPTS=" \
     --bind=ctrl-f:page-down,ctrl-b:page-up \
     --history=$XDG_CACHE_HOME/.fzf_history"
 
+# Reservix
+export VAULT_ADDR='https://vault.reservix.io'
+
+
 # Additional paths
 path+=(
     '~/go/bin'
