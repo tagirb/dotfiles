@@ -59,4 +59,3 @@ source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/prompt.zsh
 source $ZDOTDIR/history.zsh
 # }}}
-

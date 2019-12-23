@@ -1,252 +1,286 @@
-;;; Packages
+;;;; Packages
 
-;; Define package repositories
 (require 'package)
-;; Workaround until Emacs 26.3+ comes out
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (setq package-archives
       '(("gnu" . "https://elpa.gnu.org/packages/")
-	("melpa" . "https://melpa.org/packages/")
-	("org" . "http://orgmode.org/elpa/")))
+        ("melpa" . "https://melpa.org/packages/")
+        ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
 
-;;; TODO: update with the current list
-(defvar my-packages
-  '(;; UI
-    flatui-theme
-;    sanityinc-tomorrow-night
-    ido-vertical-mode
-    ;; Editing
-    avy
-    ;; VCS
-    magit
-    ;; Project Management
-    projectile
-
-    ;; DevOps
-    ansible
-    ))
-
-(when (not package-archive-contents)
+(unless package-archive-contents
   (package-refresh-contents))
 
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+;;;; Sane defaults
 
-(setq quelpa-checkout-melpa-p nil)
-(quelpa '(devdocs-lookup :fetcher github :repo "skeeto/devdocs-lookup"))
-(quelpa '(terraform-mode :fetcher file :path "~/git/emacs/terraform-mode"))
+(setq-default
 
-;;; General
-;; disable backup and lock files
-(setq make-backup-files nil)
-(setq create-lockfiles nil)
+ ;; always load newest byte code
+ load-prefer-newer t
+
+ inhibit-startup-screen t
+
+ custom-file "~/.emacs.d/custom.el"
+
+ ;; disable backup and lock files
+ make-backup-files nil
+ create-lockfiles nil
+
+ ;; do not use hard tabs
+ indent-tabs-mode nil
+ ;; but retain proper tab width if any appear
+ tab-width 8
+
+ fill-column 80
+
+ ;; put autosave #files# into /tmp
+ backup-directory-alist `((".*" . ,temporary-file-directory))
+ auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+
+ ;; reduce GC sensitivity
+ gc-cons-threshold 50000000
+
+ ;; warn when opening files larger than 10MB
+ large-file-warning-threshold 10000000
+
+ ;; enable auto refresh
+ global-auto-revert-non-file-buffers t
+ auto-revert-verbose nil
+
+ ;; disable bell
+ ring-bell-function 'ignore
+ next-screen-context-lines 5
+
+ ;; show relative line numbers
+ display-line-numbers 'relative
+
+ ;; add new line at the end of file
+ require-final-newline t
+
+ ;; if line is already indented, try completing it instead
+ tab-always-indent 'complete
+ )
+
+;; auto refresh externally changed buffers
+(global-auto-revert-mode 1)
+
+;; handle trailing whitespace properly
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; replace 'yes/no' with 'y/n'
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; custom file
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
-;; Theme
-(load-theme 'sanityinc-tomorrow-night)
-(require 'sanityinc-tomorrow-eighties-theme)
-(set-face-attribute 'default nil
-		    :font "Fantasque Sans Mono-13")
-;;; UI
-(setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(setq column-number-mode 't)
+(blink-cursor-mode -1)
+(line-number-mode t)
+(column-number-mode t)
 
-(setq next-screen-context-lines 5)
+;;;; Packages
 
-;; IDO
-(require 'ido-vertical-mode)
-(require 'flx-ido)
-(require 'ido-completing-read+)
-(ido-mode 1)
-(ido-everywhere 1)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-and-C-p-only)
-(ido-ubiquitous-mode 1)
-(flx-ido-mode 1)
-;; disable ido faces to see flx highlights
-(setq ido-enable-flex-matching t
-      ido-use-faces nil)
+;;; use-package and its dependencies
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(require 'use-package)
+(setq use-package-verbose t)
 
+(use-package diminish
+  :ensure t)
 
-;;; Evil
-(require 'evil)
-(evil-mode 1)
-(setq evil-disable-insert-state-bindings 't)
-(setq-default evil-want-Y-yank-to-eol 't)
-(setq-default display-line-numbers 'relative)
-(setq-default evil-default-state 'emacs)
-(setq evil-insert-state-modes '())
-;; TODO: extend with all modes where Evil is wanted
-(setq-default evil-normal-state-modes
-	      '(ansible
-		conf-mode
-		emacs-lisp-mode
-		dockerfile-mode
-		json-mode
-		markdown-mode
-		nginx-mode
-		python-mode
-		shell-script-mode
-		terraform-mode))
+;;; built-in packages
 
-;;; Eyebrowse
-(require 'eyebrowse)
-(eyebrowse-mode t)
-(eyebrowse-setup-opinionated-keys)
-(setq eyebrowse-new-workspace 't)
+(use-package windmove
+  :config
+  (windmove-default-keybindings))
 
-;; binding to enable/disable evil explicitly
-(global-set-key (kbd "H-v") 'evil-mode)
-;; scroll by 4 lines by default
-(define-key evil-normal-state-map (kbd "C-e") (lambda () (interactive) (evil-scroll-line-down 4)))
-(define-key evil-normal-state-map (kbd "C-y") (lambda () (interactive) (evil-scroll-line-up 4)))
-(define-key evil-motion-state-map (kbd "C-e") (lambda () (interactive) (evil-scroll-line-down 4)))
-(define-key evil-motion-state-map (kbd "C-y") (lambda () (interactive) (evil-scroll-line-up 4)))
+(use-package hl-line
+  :config
+  (global-hl-line-mode t))
 
-;; open dired with "-" in normal mode
-(define-key evil-normal-state-map (kbd "-") 'dired-jump)
-;; open parent directory with "-" in dired-mode
-;; TODO: use find-alternate-file ".." instead
-(eval-after-load "dired"
-  '(progn
-     (define-key dired-mode-map (kbd "-") '(lambda() (find-alternate-file "..")))))
+(use-package whitespace-mode
+  :bind
+  ("H-s" . whitespace-mode))
 
-;; Tramp
-(setq tramp-default-method "ssh")
+(use-package re-builder
+  :bind
+  (("H-r" . re-builder)
+   :map reb-mode-map
+   ("H-r" . reb-quit)))
 
-;; Magit
-(global-set-key (kbd "s-g") 'magit-status)
-(setq magit-prefer-remote-upstream 't)
+(use-package tramp
+  :init
+  (setq tramp-default-method "ssh"))
 
-;; Projectile
-(projectile-global-mode)
-;(diminish 'projectile-mode)
+(use-package js
+  :init
+  (setq js-indent-level 2))
 
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+;;; theme
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t
+  :init
+  (set-face-attribute 'default nil
+                      :font "Fantasque Sans Mono-13")
+  :config
+  (load-theme 'sanityinc-tomorrow-night t))
 
-;; DevDocs
-(require 'devdocs-lookup)
-(devdocs-setup)
+(use-package eyebrowse
+  :ensure t
+  :init
+  (setq eyebrowse-keymap-prefix (kbd "s-w")
+        eyebrowse-new-workspace t)
+  :config
+  (eyebrowse-mode t)
+  (eyebrowse-setup-opinionated-keys))
 
-;; Elfeed
-(require 'elfeed)
-(global-set-key (kbd "s-r") 'elfeed)
-(setq elfeed-feeds
-      '("https://hnrss.org/newest?points=200"
-	"https://www.reddit.com/r/programming/top.rss?t=week"
-	"https://www.reddit.com/r/emacs/top.rss?t=week"
-	"http://sachachua.com/blog/category/emacs-news/feed"
-	))
-(setq-default elfeed-search-filter "@1-week-ago +unread")
+(use-package ivy
+  :ensure t
+  :diminish
+  :init
+  (setq
+   ivy-wrap t
+   ivy-use-virtual-buffers t
+   ivy-height 20
+   ivy-count-format "(%d/%d) ")
+  :config
+  (ivy-mode t))
 
-;; JSON
-(setq js-indent-level 2)
+;; swiper replaces isearch, both forward and backward
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . 'swiper)
+         ("C-r" . 'swiper)))
 
-;; Ansible
-(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+(use-package counsel
+  :ensure t
+  :bind (("M-x" . 'counsel-M-x)
+         ("C-h f" . 'counsel-describe-function)
+         ("C-h v" . 'counsel-describe-variable)
+         ("C-h l" . 'counsel-find-library)
+         ("C-h a" . 'counsel-apropos)
+         ("C-c g" . 'counsel-git)))
+
+(use-package flx
+  :ensure t)
+
+(use-package avy
+  :ensure t
+  :bind (("s-." . avy-goto-word-or-subword-1)
+         ("s-," . avy-goto-char-timer))
+  :config
+  (setq avy-background t))
+
+;; evil is used with insert mode replaced with emacs mode, emacs mode being the default state
+;; normal mode is entered with C-z
+(use-package evil
+  :ensure t
+  :init
+  (setq
+   evil-disable-insert-state-bindings t
+   evil-want-Y-yank-to-eol t
+   evil-default-state 'emacs)
+  (defalias 'evil-insert-state 'evil-emacs-state)
+  (evil-mode 1))
+
+(use-package undo-tree
+  :ensure t
+  :diminish)
+
+(use-package projectile
+  :ensure t
+  :diminish
+  :init
+  (setq
+   projectile-completion-system 'ivy
+   projectile-git-command "fd . -0 --type f --hidden --color=never")
+  :bind (:map projectile-mode-map ("s-p" . 'projectile-command-map))
+  :config
+  (projectile-global-mode))
+
+(use-package which-key
+  :ensure t
+  :diminish
+  :config
+  (which-key-mode))
+
+(use-package magit
+  :ensure t
+  :bind
+  ("s-g" . magit-status)
+  :init
+  (setq magit-prefer-remote-upstream 't))
+
+;;; Coding
+
+;; Completion
+(use-package company
+  :ensure t
+  :defer t
+  :diminish
+  :init
+  (global-company-mode)
+  :config
+  (use-package company-jedi
+    :ensure t
+    :defer t
+    :init
+    (defun enable-jedi()
+      (setq-local company-backends
+                  (append '(company-jedi) company-backends)))
+    (with-eval-after-load 'company
+      (add-hook 'python-mode-hook 'enable-jedi))))
+
+;; LSP
+(use-package lsp-mode
+  :defer t
+  :config
+  (add-hook 'python-mode-hook #'lsp))
+
+;; Python
+
+;;; DevOps
+(use-package ansible
+  :ensure t
+  :config
+  (add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
+
 
 ;; Terraform
+(use-package terraform-mode
+  :ensure t
+  :config
+  (defun terraform-format-buffer ()
+    "Rewrite current buffer in a canonical format using terraform fmt."
+    (interactive)
+    (let ((point (point)))
+      (shell-command-on-region (point-min) (point-max) "terraform fmt -" 't 't)
+      (deactivate-mark)
+      (goto-char point)))
+  (add-hook 'terraform-mode-hook
+            (lambda () (add-hook 'before-save-hook terraform-format-buffer nil 'local))))
 
-;; auto-formatting
-(defun terraform-format-buffer ()
-  "Rewrite current buffer in a canonical format using terraform fmt."
-  (interactive)
-  (let ((point (point)))
-    (shell-command-on-region (point-min) (point-max) "terraform fmt -" 't 't)
-    (deactivate-mark)
-    (goto-char point)))
+(use-package elfeed
+  :ensure t
+  :bind ("s-r" . 'elfeed)
+  :init
+  (setq elfeed-feeds
+        '("https://allatravesti.com/rss"
+          "https://hnrss.org/newest?points=200"
+          "https://www.reddit.com/r/programming/top.rss?t=week"
+          "https://www.reddit.com/r/emacs/top.rss?t=week"
+          "http://sachachua.com/blog/category/emacs-news/feed"
+          ))
+  (setq elfeed-search-filter "@1-week-ago +unread"))
 
-(if (boundp 'terraform-mode)
-    (add-hook 'before-save-hook #'terraform-format-buffer nil t)
-    (remove-hook 'before-save-hook #'terraform-format-buffer t))
-
-(define-compilation-mode terraform-validate-compilation-mode "terraform-validate-compilation-mode"
-  "Compilation mode for `terraform validate'"
-  (progn
-    (set (make-local-variable 'compilation-error-regexp-alist)
-	 '(("^\\(.+\\):.+\n\n  on \\(.+\\) line \\([0-9]+\\)," 2 3 nil 1)))
-    (add-hook 'compilation-filter-hook
-	      (lambda ()
-		(read-only-mode)
-		(ansi-color-apply-on-region compilation-filter-start (point))
-		(read-only-mode))
-	      nil t)))
-
-(define-compilation-mode terraform-compilation-mode "terraform-compilation-mode"
-  "Terraform compilation mode."
-  (progn
-    (set (make-local-variable 'compilation-scroll-output) 't)
-    (add-hook 'compilation-filter-hook
-	      (lambda ()
-		(read-only-mode)
-		(ansi-color-apply-on-region compilation-filter-start (point))
-		(read-only-mode))
-	      nil t)))
-
-(defun terraform-cleanup ()
-  (interactive)
-  (if (y-or-n-p "Clean up the `.terraform/' ?")
-      (condition-case err
-	  (delete-directory (concat projectile-project-root "/.terraform") 't)
-	(error (concat "Failed to remove the `.terraform/': " (error-message-string err))))
-    (message "Terraform cleaning aborted")))
-
-(defun terraform-init ()
-  (interactive)
-  (when (eq major-mode 'terraform-mode)
-    (let* (
-	   (command "terraform init")
-	   (default-directory (projectile-project-root)))
-      (compile command 'terraform-compilation-mode))))
-
-(defun terraform-validate ()
-  (interactive)
-  (when (eq major-mode 'terraform-mode)
-    (let* (
-	   (command "terraform validate")
-	   (default-directory (projectile-project-root)))
-      (compile command 'terraform-validate-compilation-mode))))
-
-(defun terraform-plan ()
-  (interactive)
-  (when (eq major-mode 'terraform-mode)
-    (let* (
-	   (command "terraform plan")
-	   (default-directory (projectile-project-root)))
-      (compile command 'terraform-compilation-mode))))
 
 ;;;; Diverse configs
 ;;; Editing
-(setq require-final-newline 't)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;;; Diverse bindings
 ;;; Common operations
 ;; Buffer management
-(global-set-key (kbd "s-f") 'ido-find-file)
-(global-set-key (kbd "s-b") 'ido-switch-buffer)
+(global-set-key (kbd "s-f") 'find-file)
+(global-set-key (kbd "s-b") 'switch-to-buffer)
 (global-set-key (kbd "s-s") 'save-buffer)
-(global-set-key (kbd "s-k") 'ido-kill-buffer)
-(global-set-key (kbd "s-d") 'ido-dired)
-
-;; ELISP
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda()
-	     (local-set-key (kbd "s-e b") 'eval-buffer)
-	     (local-set-key (kbd "s-e e") 'eval-last-sexp)
-	     (local-set-key (kbd "s-e f") 'eval-defun)
-	     (local-set-key (kbd "s-e r") 'eval-region)))
-
-;; Minor modes
-(global-set-key (kbd "H-w") 'whitespace-mode)
-(global-set-key (kbd "H-r") 're-builder)
+(global-set-key (kbd "s-k") 'kill-buffer)
+(global-set-key (kbd "s-d") 'dired)
+(global-set-key (kbd "s-;") 'comment-line)
