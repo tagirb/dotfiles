@@ -76,17 +76,6 @@ let g:vim_json_syntax_conceal = 1
 
 " }}}
 
-" vim-SyntaxRange {{{
-function! SyntaxRange_ansible_template()
-    call SyntaxRange#Include('{%', '%}', 'jinja2')
-    call SyntaxRange#Include('{{', '}}', 'jinja2')
-endfunction
-
-augroup SyntaxRange
-    autocmd! Syntax */templates/* call SyntaxRange_ansible_template()
-augroup END
-" }}}
-
 " }}}
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 
@@ -99,10 +88,6 @@ Plug '/usr/share/vim/vimfiles/plugins'
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-eunuch'
-
-" version control
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
 
 " editing
 Plug 'mbbill/undotree'
@@ -118,18 +103,9 @@ Plug 'airblade/vim-matchquote'
 " syntax highlighting
 Plug 'sheerun/vim-polyglot'
 Plug 'hashivim/vim-terraform'
-Plug 'saltstack/salt-vim'
-Plug 'inkarkat/vim-SyntaxRange'
-"Plug 'Glench/Vim-Jinja2-Syntax'
-
-" syntax linting
-Plug 'w0rp/ale'
 
 " documentation
 Plug 'romainl/vim-devdocs'
-
-" additional tools
-Plug 'diepm/vim-rest-console'
 
 call plug#end()
 " }}}
