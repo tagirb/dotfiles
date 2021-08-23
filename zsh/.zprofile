@@ -16,7 +16,7 @@ export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
 export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_OPTS=" \
-    --bind=ctrl-f:page-down,ctrl-b:page-up \
+    --bind=ctrl-f:page-down,ctrl-b:page-up,ctrl-p:up,ctrl-n:down \
     --history=$XDG_CACHE_HOME/.fzf_history"
 
 # Reservix

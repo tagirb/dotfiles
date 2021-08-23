@@ -1,5 +1,6 @@
 [core]
     commitGraph = true
+	filemode = true
 [alias]
     br = branch
     ci = commit

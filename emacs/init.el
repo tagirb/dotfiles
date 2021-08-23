@@ -32,6 +32,8 @@
 
  fill-column 80
 
+ display-line-numbers-type 'relative
+
  ;; put autosave #files# into /tmp
  backup-directory-alist `((".*" . ,temporary-file-directory))
  auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
@@ -50,14 +52,16 @@
  ring-bell-function 'ignore
  next-screen-context-lines 5
 
- ;; show relative line numbers
- display-line-numbers 'relative
-
  ;; add new line at the end of file
  require-final-newline t
 
  ;; if line is already indented, try completing it instead
  tab-always-indent 'complete
+
+ ;; deactivate the delay before showing the matching paren
+ show-paren-delay 0
+
+ cursor-type 'bar
  )
 
 ;; auto refresh externally changed buffers
@@ -74,6 +78,7 @@
 (blink-cursor-mode -1)
 (line-number-mode t)
 (column-number-mode t)
+(show-paren-mode 1)
 
 ;;;; Packages
 
@@ -134,7 +139,7 @@
 
 (use-package ivy
   :ensure t
-  :diminish
+  :diminish ivy-mode
   :init
   (setq
    ivy-wrap t
@@ -147,17 +152,20 @@
 ;; swiper replaces isearch, both forward and backward
 (use-package swiper
   :ensure t
-  :bind (("C-s" . 'swiper)
-         ("C-r" . 'swiper)))
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)))
 
 (use-package counsel
   :ensure t
-  :bind (("M-x" . 'counsel-M-x)
-         ("C-h f" . 'counsel-describe-function)
-         ("C-h v" . 'counsel-describe-variable)
-         ("C-h l" . 'counsel-find-library)
-         ("C-h a" . 'counsel-apropos)
-         ("C-c g" . 'counsel-git)))
+  :bind (("M-x" . counsel-M-x)
+         ("C-h f" . counsel-describe-function)
+         ("C-h v" . counsel-describe-variable)
+         ("C-h l" . counsel-find-library)
+         ("C-h a" . counsel-apropos)
+         ("C-c g" . counsel-git)
+         ("M-y" . counsel-yank-pop)
+         :map ivy-minibuffer-map
+         ("M-y" . ivy-next-line)))
 
 (use-package flx
   :ensure t)
@@ -167,7 +175,56 @@
   :bind (("s-." . avy-goto-word-or-subword-1)
          ("s-," . avy-goto-char-timer))
   :config
+  (set-face-foreground 'avy-background-face "gray40")
   (setq avy-background t))
+
+(use-package dimmer
+  :ensure t
+  :init
+  (dimmer-configure-magit)
+  (dimmer-configure-which-key)
+  :config
+  (dimmer-mode))
+
+(use-package org
+  :ensure t
+  :init
+  '(org-export-backends '(ascii html md odt))
+  )
+
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)))
+
+(use-package counsel
+  :ensure t
+  :bind (("M-x" . counsel-M-x)
+         ("C-h f" . counsel-describe-function)
+         ("C-h v" . counsel-describe-variable)
+         ("C-h l" . counsel-find-library)
+         ("C-h a" . counsel-apropos)
+         ("C-c g" . counsel-git)
+         ("M-y" . counsel-yank-pop)
+         :map ivy-minibuffer-map
+         ("M-y" . ivy-next-line)))
+
+(use-package flx
+  :ensure t)
+
+(use-package avy
+  :ensure t
+  :bind (("s-." . avy-goto-word-or-subword-1)
+         ("s-," . avy-goto-char-timer))
+  :config
+  (set-face-foreground 'avy-background-face "gray40")
+  (setq avy-background t))
+
+(use-package org
+  :ensure t
+  :init
+  '(org-export-backends '(ascii html md odt))
+  )
 
 ;; evil is used with insert mode replaced with emacs mode, emacs mode being the default state
 ;; normal mode is entered with C-z
@@ -177,13 +234,24 @@
   (setq
    evil-disable-insert-state-bindings t
    evil-want-Y-yank-to-eol t
-   evil-default-state 'emacs)
-  (defalias 'evil-insert-state 'evil-emacs-state)
-  (evil-mode 1))
+   evil-default-state 'normal)
+  (evil-mode -1)
+  (defun toggle-evil-mode ()
+    (interactive)
+    (if (bound-and-true-p evil-local-mode)
+        (progn
+          (turn-off-evil-mode)
+          (set-variable 'cursor-type 'bar)
+          (display-line-numbers-mode -1))
+      (progn
+        (turn-on-evil-mode)
+        (set-variable 'cursor-type 'box)
+        (display-line-numbers-mode t))))
+  :bind ("M-<tab>" . 'toggle-evil-mode))
 
 (use-package undo-tree
   :ensure t
-  :diminish)
+  :diminish undo-tree-mode)
 
 (use-package projectile
   :ensure t
@@ -284,3 +352,5 @@
 (global-set-key (kbd "s-k") 'kill-buffer)
 (global-set-key (kbd "s-d") 'dired)
 (global-set-key (kbd "s-;") 'comment-line)
+(global-set-key (kbd "M-n") (lambda() (interactive) (scroll-up-command 5)))
+(global-set-key (kbd "M-p") (lambda() (interactive) (scroll-down-command 5)))
