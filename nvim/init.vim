@@ -15,6 +15,19 @@ let g:loaded_tutor_mode_plugin = 0
 let g:loaded_vimballPlugin = 0
 let g:loaded_zipPlugin = 0
 
+" define XDG vars if needed {{{
+if empty($XDG_CACHE_HOME)
+let $XDG_CACHE_HOME=expand("$HOME/.cache")
+endif
+if empty($XDG_CONFIG_HOME)
+let $XDG_CONFIG_HOME=expand("$HOME/.config")
+endif
+if empty($XDG_DATA_HOME)
+let $XDG_DATA_HOME=expand("$HOME/.local/share")
+" }}}
+
+endif
+
 let v_vimplug = $XDG_CONFIG_HOME . '/nvim/autoload/plug.vim'
 let v_vimplug_url =
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -82,6 +95,7 @@ call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 " ui
 Plug 'chriskempson/base16-vim'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'equalsraf/neovim-gui-shim'
 
 " file/buffer management
 Plug '/usr/share/vim/vimfiles/plugins'

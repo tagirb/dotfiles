@@ -46,12 +46,23 @@ alias ....='cd ../../..'
 alias vim='nvim'
 alias vi='nvim'
 
-# pass
-alias pass='gopass'
-
-# terraform
-alias tf='terraform'
-alias tf11='terraform0.11'
+# core
+v_get() {
+    vault token lookup >&/dev/null \
+        || vault login -method=oidc >&/dev/null
+    vault kv get -field=password $1
+}
+mydev() {
+    local server
+    if (( $# == 0 )); then
+        server='mysql'
+    else
+        server=$1
+        shift
+    fi
+    mysql -h "${server}.dev.rsvx.it" -u 'rxdev' \
+        -p"$(v_get dev_common/mysql/dev/rxdev)" $@ RESERVIERUNG
+}
 # }}}
 
 # Additional setting files {{{
