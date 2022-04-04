@@ -48,9 +48,4 @@ compdef tf=terraform
 # fzf
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
-source "$XDG_CONFIG_HOME/zsh/completion/fzf.zsh"
-
-# custom
-source ~/git/shell/_ec2_hostname_selector
-source ~/git/shell/_ec2_instanceId_selector
 
