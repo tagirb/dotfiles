@@ -20,7 +20,7 @@ setopt hist_verify
 # imports new commands and appends typed commands to history
 setopt share_history
 
-HISTFILE=~/.share/zsh/histfile
+HISTFILE=~/.local/share/zsh/histfile
 HISTSIZE=1000
 SAVEHIST=1000
 
