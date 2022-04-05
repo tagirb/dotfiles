@@ -50,7 +50,5 @@ alias vi='nvim'
 source /etc/profile.d/vte.sh
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/prompt.zsh
-set -x
 source $ZDOTDIR/history.zsh
-set +x
 # }}}
