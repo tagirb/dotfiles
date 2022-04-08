@@ -46,6 +46,10 @@ alias ....='cd ../../..'
 alias vim='nvim'
 alias vi='nvim'
 
+# tools
+alias tf='terraform'
+alias hc='hcloud'
+
 # Additional setting files {{{
 source /etc/profile.d/vte.sh
 source $ZDOTDIR/completion.zsh
