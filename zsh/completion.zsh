@@ -7,8 +7,6 @@ setopt auto_menu
 # any parameter that is set to the absolute name of a directory immediately
 # becomes a name for that directory
 setopt auto_name_dirs
-# complete aliases
-setopt complete_aliases
 # allow completion from within a word/phrase
 setopt complete_in_word
 # complete as much of a completion until it gets ambiguous
