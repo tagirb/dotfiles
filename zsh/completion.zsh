@@ -38,7 +38,6 @@ zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-d
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
 # additional completions
-complete -C /usr/bin/vault vault
 complete -C /usr/bin/terraform terraform
 
 compdef tf=terraform

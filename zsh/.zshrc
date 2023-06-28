@@ -48,6 +48,7 @@ alias vi='nvim'
 
 # tools
 alias tf='terraform'
+alias tfp='terraform plan -refresh=false'
 alias hc='hcloud'
 
 # Additional setting files {{{

@@ -141,7 +141,7 @@ set switchbuf=useopen       " reveal already opened files from the
 
 
 " ui {{{
-set textwidth=80            " limit text width to 80 chars
+set textwidth=120            " limit text width to 120 chars
 set scrolloff=4             " keep this cursor context when scrolling
 set sidescrolloff=4         " 
 set cursorline              " highlight the current line
