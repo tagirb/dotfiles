@@ -21,10 +21,12 @@ export FZF_DEFAULT_OPTS=" \
 
 # Bitwarden handling
 bw_session_file="$HOME/.config/Bitwarden CLI/bw_session"
-if ! ( [[ -f $bw_session_file ]] \
+if [[ -f $bw_session_file ]] \
      && export BW_SESSION=$(cat $bw_session_file) \
-     && bw unlock --check &>/dev/null )
+     && bw unlock --check &>/dev/null
 then
+    :
+else
     if bw login --check &>/dev/null; then
         if ! bw unlock --check &>/dev/null; then
             >&2 echo 'Unlock Bitwarden..'
@@ -34,7 +36,7 @@ then
         fi
     else
         >&2 echo 'Log in to Bitwarden..'
-        export BW_SESSION=$(bw unlock --raw)
+        export BW_SESSION=$(bw login --raw)
         echo $BW_SESSION > $bw_session_file
         bw sync &>/dev/null
     fi
