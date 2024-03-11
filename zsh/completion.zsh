@@ -41,8 +41,6 @@ zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 complete -C /usr/bin/terraform terraform
 compdef tf=terraform
 
-eval "$(bw completion --shell zsh); compdef _bw bw;"
-
 # fzf
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh

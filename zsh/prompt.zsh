@@ -53,7 +53,7 @@ RPROMPT() {
     # branch
     local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     [[ $branch == 'HEAD' ]] && branch='Ø'
-    rprompt+="%F{0}%K{3} $branch "
+    rprompt+="%F{234}%K{3} $branch "
 
     local root=${info:A:h}
     local name
@@ -67,7 +67,7 @@ RPROMPT() {
         # absolute path to the repo
         name=$root
     fi
-    rprompt+="%K{4} $name %k%f%b"
+    rprompt+="%F{253}%K{22} $name %k%f%b"
 
     echo $rprompt
 }

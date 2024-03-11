@@ -1,5 +1,5 @@
 " general {{{
-set clipboard^=unnamed,unnamedplus " use OS clipboard by default
+"set clipboard^=unnamed,unnamedplus " use OS clipboard by default
 let mapleader=' '                  " change mapleader to space
 let g:mapleader=' '
 " }}}
