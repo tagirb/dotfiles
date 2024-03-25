@@ -6,6 +6,7 @@ export XDG_DATA_HOME=~/.local/share
 export LC_ALL='en_US.UTF-8'
 export EDITOR='nvim'
 export PAGER='less'
+export LS_COLORS=$(vivid generate one-dark)
 
 export LESS='-FiJmnRWX'
 export LESSHISTFILE=-

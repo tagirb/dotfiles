@@ -57,9 +57,9 @@ RPROMPT() {
 
     local root=${info:A:h}
     local name
-    if [[ $root =~ ^$HOME\/git ]]; then
+    if [[ $root =~ ^$HOME\/r ]]; then
         # $HOME/git/path/to/repo => path/to/repo
-        name=${root/$HOME\/git\//}
+        name=${root/$HOME\/r\//}
     elif [[ $root =~ ^$HOME ]]; then
         # $HOME/path/to/repo => ~/path/to/repo
         name=${root/$HOME/\~}

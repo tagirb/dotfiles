@@ -94,6 +94,7 @@ call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 
 " ui
 Plug 'chriskempson/base16-vim'
+Plug 'projekt0n/github-nvim-theme'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'equalsraf/neovim-gui-shim'
 
