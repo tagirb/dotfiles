@@ -26,6 +26,10 @@ export FZF_DEFAULT_OPTS=" \
 #     )
 # # }}}
 
+# private profile {{{{
+source $ZDOTDIR/.zprofile.private
+# }}}
+
 # source OS-specific definitions
 if [[ -f $ZDOTDIR/.zprofile.$(uname -s) ]]; then
     source $ZDOTDIR/.zprofile.$(uname -s)

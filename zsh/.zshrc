@@ -49,7 +49,7 @@ alias vi='nvim'
 # tools
 alias tf='terraform'
 alias tfp='terraform plan -refresh=false'
-alias hc='hcloud'
+alias dc='docker compose'
 
 # Additional setting files {{{
 source /etc/profile.d/vte.sh

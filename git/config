@@ -11,6 +11,7 @@
     mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
 	st = !"git --no-pager diff --shortstat HEAD && git --no-pager status -sb"
     unstage = rm --cached
+    dft = difftool
 [apply]
 	whitespace = nowarn
 [color]
@@ -40,8 +41,19 @@
     submoduleSummary = true
 [user]
 	name = Tagir Bakirov
-	email = tagir.bakirov@reservix.de
+	email = 29534910+tagirb@users.noreply.github.com
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [mergetool "nvim"]
-  cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+    cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+[diff]
+    tool = difftastic
+    external = difft
+[difftool]
+    prompt = false
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+    difftool = true
+[init]
+	defaultBranch = main
