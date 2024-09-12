@@ -1,0 +1,10 @@
+!-------------------------------------------------------------------------------
+! Xft settings
+!-------------------------------------------------------------------------------
+
+Xft.antialias:              false
+Xft.autohint:               0
+Xft.hinting:                true
+Xft.hintstyle:              hintfull
+Xft.lcdfilter:              lcddefault
+Xft.rgba:                   rgb
