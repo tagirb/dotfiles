@@ -26,9 +26,13 @@ compinit -d "$XDG_DATA_HOME/zsh/zcompdump"
 # completion settings as per zshcompsys(1)
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$XDG_DATA_HOME/zsh/completion"
-
 # use menu selection
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu select=long interactive
+# use verbose style
+zstyle ':completion:*' verbose yes
+# group completions by their type
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
 # completer control functions to use
 zstyle ':completion:*' completer _complete _match
 
@@ -45,3 +49,8 @@ compdef tf=terraform
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
+# nomad
+complete -o nospace -C /usr/bin/nomad nomad
+
+# sq
+eval $(sq completion zsh)
