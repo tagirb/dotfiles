@@ -21,54 +21,58 @@ PROMPT() {
     fi
 }
 RPROMPT() {
-    # when not in Git repo
-    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) != 'true' ]]; then
-        return 0
-    fi
-
     # when in Git repo
+    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == 'true' ]]; then
+        # RPROMPT: action stash worktree index remote master core/main 
+        local rprompt='%B'
 
-    # RPROMPT: action stash worktree index remote master core/main 
-    local rprompt='%B'
+        local info=$(git rev-parse --git-dir 2>/dev/null)
 
-    local info=$(git rev-parse --git-dir 2>/dev/null)
+        # action
+        local action=$(_rprompt_git_action $info)
+        [[ -n "$action" ]] && rprompt+="%F{1}%{\x1b[3m%}$action%{\x1b[0m%}"
+        
+        # stash
+        [[ -f $info/refs/stash || -f $info/logs/refs/stash ]] \
+            && rprompt+='%F{226}⭑'
 
-    # action
-    local action=$(_rprompt_git_action $info)
-    [[ -n "$action" ]] && rprompt+="%F{1}%{\x1b[3m%}$action%{\x1b[0m%}"
-    
-    # stash
-    [[ -f $info/refs/stash || -f $info/logs/refs/stash ]] \
-        && rprompt+='%F{226}⭑'
+        # working tree + index
+        local gst="$(git status --porcelain 2>/dev/null \
+            | awk -f $ZDOTDIR/_git_status.awk -F '')"
+        [[ -n "$gst" ]] && rprompt+="$gst"
 
-    # working tree + index
-    local gst="$(git status --porcelain 2>/dev/null \
-        | awk -f $ZDOTDIR/_git_status.awk -F '')"
-    [[ -n "$gst" ]] && rprompt+="$gst"
+        # remote
+        local remote=$(_rprompt_git_remote)
+        [[ -n "$remote" ]] && rprompt+="%K{239} $(_rprompt_git_remote) "
 
-    # remote
-    local remote=$(_rprompt_git_remote)
-    [[ -n "$remote" ]] && rprompt+="%K{239} $(_rprompt_git_remote) "
+        # branch
+        local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+        [[ $branch == 'HEAD' ]] && branch='Ø'
+        rprompt+="%F{234}%K{3} $branch "
 
-    # branch
-    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    [[ $branch == 'HEAD' ]] && branch='Ø'
-    rprompt+="%F{234}%K{3} $branch "
+        local root=${info:A:h}
+        local name
+        if [[ $root =~ ^$HOME\/r ]]; then
+            # $HOME/git/path/to/repo => path/to/repo
+            name=${root/$HOME\/r\//}
+        elif [[ $root =~ ^$HOME ]]; then
+            # $HOME/path/to/repo => ~/path/to/repo
+            name=${root/$HOME/\~}
+        else
+            # absolute path to the repo
+            name=$root
+        fi
+        rprompt+="%F{253}%K{22} $name %k%f%b"
 
-    local root=${info:A:h}
-    local name
-    if [[ $root =~ ^$HOME\/r ]]; then
-        # $HOME/git/path/to/repo => path/to/repo
-        name=${root/$HOME\/r\//}
-    elif [[ $root =~ ^$HOME ]]; then
-        # $HOME/path/to/repo => ~/path/to/repo
-        name=${root/$HOME/\~}
-    else
-        # absolute path to the repo
-        name=$root
     fi
-    rprompt+="%F{253}%K{22} $name %k%f%b"
 
+    # show custom python if activated
+    local python_version=$(pyenv version-name 2>/dev/null) 
+    if (( $? == 0 )) && [[ $python_version != 'system' ]]; then
+        rprompt+="%B%F{220}%K{30} $python_version %k%f%b"
+    fi
+    
+    # print the rprompt
     echo $rprompt
 }
 

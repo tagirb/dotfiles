@@ -50,6 +50,8 @@ alias vi='nvim'
 alias tf='terraform'
 alias tfp='terraform plan -refresh=false'
 alias dc='docker compose'
+alias task='go-task'
+alias code='ELECTRON_OZONE_PLATFORM_HINT="wayland" electron /usr/lib/vscodium-electron/out/cli.js /usr/lib/vscodium-electron/vscodium-electron.js'
 
 # Additional setting files {{{
 source /etc/profile.d/vte.sh
