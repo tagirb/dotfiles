@@ -11,7 +11,6 @@
     mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
 	st = !"git --no-pager diff --shortstat HEAD && git --no-pager status -sb"
     unstage = rm --cached
-    dft = difftool
 [apply]
 	whitespace = nowarn
 [color]
@@ -46,13 +45,6 @@
 	insteadOf = https://github.com/
 [mergetool "nvim"]
     cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
-[diff]
-    tool = difftastic
-    external = difft
-[difftool]
-    prompt = false
-[difftool "difftastic"]
-    cmd = difft "$LOCAL" "$REMOTE"
 [pager]
     difftool = true
 [init]

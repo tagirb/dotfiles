@@ -42,17 +42,20 @@ zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-d
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
 # additional completions
-complete -C /usr/bin/terraform terraform
-compdef tf=terraform
-
-compdef task=go-task
+#complete -C /usr/bin/terraform terraform
+#compdef tf=terraform
 
 # fzf
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+# Manjaro
+#source /usr/share/fzf/key-bindings.zsh
+#source /usr/share/fzf/completion.zsh
+# Ubuntu
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
 
 # nomad
-complete -o nospace -C /usr/bin/nomad nomad
+#complete -o nospace -C /usr/bin/nomad nomad
 
-# sq
-eval $(sq completion zsh)
+# python
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
