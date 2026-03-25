@@ -1,18 +1,21 @@
-# add go variables
-export GOPATH="$HOME/go"
+## add go variables
+#export GOPATH="$HOME/go"
+#
+## re-define PATH to prefer local (Homebrew) binaries
+#path=(
+#    '/usr/local/bin'
+#    '/usr/bin'
+#    '/bin'
+#    '/usr/local/sbin'
+#    '/usr/sbin'
+#    '/sbin'
+#    "$GOPATH/bin"
+#)
+#export PATH
+#
+## configure dircolors for GNU ls (gls)
+#eval $(gdircolors -b)
+#
 
-# re-define PATH to prefer local (Homebrew) binaries
-path=(
-    '/usr/local/bin'
-    '/usr/bin'
-    '/bin'
-    '/usr/local/sbin'
-    '/usr/sbin'
-    '/sbin'
-    "$GOPATH/bin"
-)
-export PATH
-
-# configure dircolors for GNU ls (gls)
-eval $(gdircolors -b)
-
+# homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"

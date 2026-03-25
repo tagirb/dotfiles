@@ -38,9 +38,6 @@
 	default = simple
 [status]
     submoduleSummary = true
-[user]
-	name = Tagir Bakirov
-	email = 29534910+tagirb@users.noreply.github.com
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [mergetool "nvim"]
@@ -49,3 +46,5 @@
     difftool = true
 [init]
 	defaultBranch = main
+[includeIf "gitdir:~/w/"]
+    path = ~/w/.gitconfig

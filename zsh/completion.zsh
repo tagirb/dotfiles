@@ -15,7 +15,11 @@ setopt list_ambiguous
 unsetopt menu_complete
 
 # local completions
-fpath=( "$XDG_CONFIG_HOME/zsh/completion" $fpath )
+fpath=(
+	/opt/homebrew/share/zsh/site-functions
+	"$XDG_CONFIG_HOME/zsh/completion"
+	$fpath
+)
 
 zmodload zsh/complist
 autoload -Uz compinit
@@ -41,20 +45,8 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
-# additional completions
-#complete -C /usr/bin/terraform terraform
-#compdef tf=terraform
-
 # fzf
-# Manjaro
-#source /usr/share/fzf/key-bindings.zsh
-#source /usr/share/fzf/completion.zsh
-# Ubuntu
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
-
-# nomad
-#complete -o nospace -C /usr/bin/nomad nomad
+source <(fzf --zsh)
 
 # python
 eval "$(uv generate-shell-completion zsh)"

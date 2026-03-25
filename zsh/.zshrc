@@ -52,16 +52,19 @@ alias tf='terraform'
 
 # additional PATHs
 path=(
-    "$HOME/.pulumi/bin"
     "$HOME/.local/bin"
+    "/opt/homebrew/opt/libpq/bin"
     $path
 )
-export PATH
 
 # Additional setting files {{{
-source /etc/profile.d/vte-2.91.sh
+#source /etc/profile.d/vte-2.91.sh # move to Linux
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/prompt.zsh
 source $ZDOTDIR/history.zsh
 # }}}
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

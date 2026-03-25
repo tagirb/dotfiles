@@ -8,8 +8,13 @@ promptinit
 
 #export PROMPT='%B%F{red}%(?..[%?])%f%b%n@%U%m%u> '
 #export PROMPT='%B%F{red}%(?..[%?])%f%b> '
-export PROMPT='$(PROMPT)'
-export RPROMPT='$(RPROMPT)'
+if [[ $TERM_PROGRAM == 'vscode' ]]; then
+  PROMPT='%~$ '
+  RPROMPT=''
+else
+    export PROMPT='$(PROMPT)'
+    export RPROMPT='$(RPROMPT)'
+fi
 
 PROMPT() {
     path=$(git rev-parse --show-prefix 2>/dev/null)
@@ -38,7 +43,7 @@ RPROMPT() {
 
         # working tree + index
         local gst="$(git status --porcelain 2>/dev/null \
-            | awk -f $ZDOTDIR/_git_status.awk -F '')"
+            | gawk -f $ZDOTDIR/_git_status.awk -F '')"
         [[ -n "$gst" ]] && rprompt+="$gst"
 
         # remote
@@ -52,9 +57,9 @@ RPROMPT() {
 
         local root=${info:A:h}
         local name
-        if [[ $root =~ ^$HOME\/r ]]; then
+        if [[ $root =~ ^$HOME\/w ]]; then
             # $HOME/git/path/to/repo => path/to/repo
-            name=${root/$HOME\/r\//}
+            name=${root/$HOME\/w\//}
         elif [[ $root =~ ^$HOME ]]; then
             # $HOME/path/to/repo => ~/path/to/repo
             name=${root/$HOME/\~}
@@ -66,12 +71,6 @@ RPROMPT() {
 
     fi
 
-    # show custom python if activated
-    local python_version=$(pyenv version-name 2>/dev/null) 
-    if (( $? == 0 )) && [[ $python_version != 'system' ]]; then
-        rprompt+="%B%F{220}%K{30} $python_version %k%f%b"
-    fi
-    
     # print the rprompt
     echo $rprompt
 }
