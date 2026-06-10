@@ -1,4 +1,4 @@
-# Basic Options {{{
+# Basic Options
 # don't beep on error
 setopt no_beep
 # allow comments even in interactive shells
@@ -13,9 +13,8 @@ unsetopt correct
 unsetopt correctall
 # perform implicit tees or cats when multiple redirections are attempted
 setopt multios
-# }}}
 
-# Changing Directories {{{
+# Changing Directories
 # If you type foo, and it isn't a command, and it is a directory in your cdpath,
 # go there
 setopt auto_cd
@@ -24,19 +23,17 @@ setopt auto_cd
 setopt cdablevarS
 # don't push multiple copies of the same directory onto the directory stack
 setopt pushd_ignore_dups
-# }}}
 
-# ZLE {{{
+# ZLE
 bindkey -e
 zle_highlight=(default:bold region:standout isearch:underline)
-# }}}
 
-# Aliases {{{
+# Aliases
 # files and directories
-alias la='eza -laF'
-alias ld='eza -ldF'
-alias ll='eza -lF'
-alias ls='eza -F'
+alias la='eza -la -F=auto'
+alias ld='eza -ld -F=auto'
+alias ll='eza -l -F=auto'
+alias ls='eza -F=auto'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -52,19 +49,30 @@ alias tf='terraform'
 
 # additional PATHs
 path=(
+    "$HOME/.venvs/local/bin"
     "$HOME/.local/bin"
     "/opt/homebrew/opt/libpq/bin"
     $path
 )
 
-# Additional setting files {{{
+# Custom functions
+tslog() {
+  gawk '@load "time"
+  {
+    ts = gettimeofday()
+    sec = int(ts)
+    usec = int((ts - sec) * 1000000)
+    printf "%s.%06d %s\n", strftime("%F %T", sec), usec, $0
+    fflush()
+  }'
+}
+
+# Additional setting files
 #source /etc/profile.d/vte-2.91.sh # move to Linux
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/prompt.zsh
 source $ZDOTDIR/history.zsh
-# }}}
 
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# bun completions
+[ -s "/Users/tagir.bakirov/.bun/_bun" ] && source "/Users/tagir.bakirov/.bun/_bun"

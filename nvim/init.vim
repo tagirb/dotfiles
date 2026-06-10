@@ -192,7 +192,7 @@ endfunc
 
 " color scheme
 set termguicolors
-colorscheme base16-tomorrow-night
+colorscheme base16-tomorrow-night-eighties
 set background=dark
 
 " editing behavour {{{

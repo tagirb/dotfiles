@@ -14,20 +14,21 @@ setopt list_ambiguous
 # do not autoselect the first completion entry
 unsetopt menu_complete
 
-# local completions
+# paths to local completions
 fpath=(
 	/opt/homebrew/share/zsh/site-functions
 	"$XDG_CONFIG_HOME/zsh/completion"
 	$fpath
 )
 
+# init completion
 zmodload zsh/complist
 autoload -Uz compinit
 autoload -Uz bashcompinit
 bashcompinit
 compinit -d "$XDG_DATA_HOME/zsh/zcompdump"
 
-# completion settings as per zshcompsys(1)
+# configure completion
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$XDG_DATA_HOME/zsh/completion"
 # use menu selection
@@ -45,9 +46,17 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
+# additional completions
+
+# terraform
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
 # fzf
 source <(fzf --zsh)
 
 # python
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
+
+# zoxide
+eval "$(zoxide init zsh)"
