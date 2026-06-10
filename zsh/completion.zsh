@@ -14,19 +14,30 @@ setopt list_ambiguous
 # do not autoselect the first completion entry
 unsetopt menu_complete
 
+_has_command() {
+	(( $+commands[$1] ))
+}
+
 # paths to local completions
 fpath=(
-	/opt/homebrew/share/zsh/site-functions
 	"$XDG_CONFIG_HOME/zsh/completion"
 	$fpath
 )
 
+if [[ -n ${HOMEBREW_PREFIX:-} && -d "$HOMEBREW_PREFIX/share/zsh/site-functions" ]]; then
+	fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
+fi
+
 # init completion
 zmodload zsh/complist
 autoload -Uz compinit
-autoload -Uz bashcompinit
-bashcompinit
-compinit -d "$XDG_DATA_HOME/zsh/zcompdump"
+
+zcompdump_path="$XDG_DATA_HOME/zsh/zcompdump"
+if [[ -f "$zcompdump_path" ]]; then
+	compinit -C -d "$zcompdump_path"
+else
+	compinit -d "$zcompdump_path"
+fi
 
 # configure completion
 zstyle ':completion::complete:*' use-cache on
@@ -49,14 +60,18 @@ zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 # additional completions
 
 # terraform
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+if _has_command terraform; then
+	autoload -Uz bashcompinit
+	bashcompinit
+	complete -o nospace -C "${commands[terraform]}" terraform
+fi
 
 # fzf
-source <(fzf --zsh)
+_has_command fzf && source <(fzf --zsh)
 
 # python
-eval "$(uv generate-shell-completion zsh)"
-eval "$(uvx --generate-shell-completion zsh)"
+_has_command uv && eval "$(uv generate-shell-completion zsh 2>/dev/null)"
+_has_command uvx && eval "$(uvx --generate-shell-completion zsh 2>/dev/null)"
 
 # zoxide
-eval "$(zoxide init zsh)"
+_has_command zoxide && eval "$(zoxide init zsh)"

@@ -6,20 +6,21 @@ export XDG_DATA_HOME=~/.local/share
 export LC_ALL='en_US.UTF-8'
 export EDITOR='nvim'
 export PAGER='less'
-export LS_COLORS=$(vivid generate one-dark)
+if [[ -o interactive ]] && (( $+commands[vivid] )); then
+    export LS_COLORS="$(vivid generate one-dark)"
+fi
 
 export LESS='-FiJmnRWX'
 export LESSHISTFILE=-
 
-export GPG_TTY="$(tty)"
+if [[ -o interactive ]]; then
+    export GPG_TTY="${TTY:-$(tty 2>/dev/null)}"
+fi
 
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
 export FZF_DEFAULT_COMMAND='fd --type file'
-export FZF_DEFAULT_OPTS=" \
-    --bind=ctrl-f:page-down,ctrl-b:page-up,ctrl-p:up,ctrl-n:down \
-    --history=$XDG_CACHE_HOME/.fzf_history"
-
+export FZF_DEFAULT_OPTS='--bind=ctrl-f:page-down,ctrl-b:page-up,ctrl-p:up,ctrl-n:down'
 # export PYENV_ROOT="$HOME/.pyenv"
 # [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 # eval "$(pyenv init - zsh)"

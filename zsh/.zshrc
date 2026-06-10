@@ -47,11 +47,15 @@ alias vi='nvim'
 alias dc='docker compose'
 alias tf='terraform'
 
+# User-tunable flags
+: ${PROMPT_GIT_FAST_MODE:=0}
+: ${ZSH_SHARE_HISTORY:=1}
+
 # additional PATHs
+typeset -U path
 path=(
     "$HOME/.venvs/local/bin"
     "$HOME/.local/bin"
-    "/opt/homebrew/opt/libpq/bin"
     $path
 )
 

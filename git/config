@@ -2,7 +2,7 @@
     commitGraph = true
 	filemode = true
 [alias]
-    acp = !"git add -A && git ci --amend --no-edit && git push --force-with-lease"
+    fixup = !"git add -A && git ci --amend --no-edit && git push --force-with-lease"
     br = branch
     ci = commit
 	co = checkout
