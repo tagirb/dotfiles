@@ -1,3 +1,5 @@
+# vim: ft=zsh
+
 ## add go variables
 #export GOPATH="$HOME/go"
 #
