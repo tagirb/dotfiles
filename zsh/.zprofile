@@ -21,11 +21,19 @@ export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
 export FZF_DEFAULT_COMMAND='fd --type file'
 export FZF_DEFAULT_OPTS='--bind=ctrl-f:page-down,ctrl-b:page-up,ctrl-p:up,ctrl-n:down'
-# export PYENV_ROOT="$HOME/.pyenv"
-# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init - zsh)"
-# }}}
-
+export _ZO_FZF_OPTS="
+  $FZF_DEFAULT_OPTS
+  --no-sort
+  --bind=ctrl-z:ignore,btab:up,tab:down
+  --cycle
+  --keep-right
+  --height=45%
+  --info=inline
+  --layout=reverse
+  --tabstop=1
+  --exit-0
+  --preview-window='down,30%'
+"
 
 if [[ -f $ZDOTDIR/.zprofile.private ]]; then
     source $ZDOTDIR/.zprofile.private

@@ -102,7 +102,7 @@ _prompt_refresh_git_cache() {
                 ahead=${a#+}
                 behind=${b#-}
                 ;;
-            '\? '*)
+            \?\ *)
                 wt_untracked='%F{cyan}?'
                 ;;
             [12u]' '*)
