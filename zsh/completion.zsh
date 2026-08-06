@@ -75,3 +75,6 @@ _has_command uvx && eval "$(uvx --generate-shell-completion zsh 2>/dev/null)"
 
 # zoxide
 _has_command zoxide && eval "$(zoxide init zsh)"
+
+# bun
+[ -s "/Users/tagir.bakirov/.bun/_bun" ] && source "/Users/tagir.bakirov/.bun/_bun"

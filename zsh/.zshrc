@@ -28,12 +28,24 @@ setopt pushd_ignore_dups
 bindkey -e
 zle_highlight=(default:bold region:standout isearch:underline)
 
+# Additional setting files
+#source /etc/profile.d/vte-2.91.sh # move to Linux
+source $ZDOTDIR/completion.zsh
+source $ZDOTDIR/prompt.zsh
+source $ZDOTDIR/history.zsh
+
+
 # Aliases
 # files and directories
-alias la='eza -la -F=auto'
-alias ld='eza -ld -F=auto'
-alias ll='eza -l -F=auto'
-alias ls='eza -F=auto'
+# alias ls='eza -F=auto'
+# alias ll='eza -l -F=auto'
+# alias ld='eza -ld -F=auto'
+# alias la='eza -la -F=auto'
+
+ls(){ eza -F=auto "$@"; }; compdef _eza ls
+ll(){ eza -l -F=auto "$@"; }; compdef _eza ll
+ld(){ eza -ld -F=auto "$@"; }; compdef _eza ld
+la(){ eza -la -F=auto "$@"; }; compdef _eza la
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -46,6 +58,7 @@ alias vi='nvim'
 # tools
 alias dc='docker compose'
 alias tf='terraform'
+alias dbx='databricks'
 
 # User-tunable flags
 : ${PROMPT_GIT_FAST_MODE:=0}
@@ -71,12 +84,3 @@ tslog() {
   }'
 }
 
-# Additional setting files
-#source /etc/profile.d/vte-2.91.sh # move to Linux
-source $ZDOTDIR/completion.zsh
-source $ZDOTDIR/prompt.zsh
-source $ZDOTDIR/history.zsh
-
-
-# bun completions
-[ -s "/Users/tagir.bakirov/.bun/_bun" ] && source "/Users/tagir.bakirov/.bun/_bun"
