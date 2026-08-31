@@ -46,5 +46,9 @@
     difftool = true
 [init]
 	defaultBranch = main
+[include]
+    path = ~/.config/git/git-delta.themes
+[delta]
+    side-by-side = true
 [includeIf "gitdir:~/w/"]
     path = ~/w/.gitconfig
